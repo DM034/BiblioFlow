@@ -38,6 +38,14 @@ namespace Biblio.BackOffice.Pages.Admin.Books
             _context.Books.Add(Book);
             await _context.SaveChangesAsync();
 
+            // créer la licence par défaut (1 seat)
+            _context.Licenses.Add(new Biblio.BackOffice.Models.License
+            {
+                BookId = Book.Id,
+                ConcurrentSeats = 1
+            });
+            await _context.SaveChangesAsync();
+
             return RedirectToPage("./Index");
         }
     }

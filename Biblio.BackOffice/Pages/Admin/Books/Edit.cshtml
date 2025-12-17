@@ -48,6 +48,14 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        <p>
+        <a href="/Admin/Books/UploadPdf?BookId=@Model.Book.Id">Upload PDF for this book</a>
+        </p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Book.PdfPath))
+        {
+        <p>Current PdfPath: <code>@Model.Book.PdfPath</code></p>
+        }
     </div>
 </div>
 

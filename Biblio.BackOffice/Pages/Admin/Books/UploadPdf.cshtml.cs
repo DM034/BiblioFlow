@@ -18,7 +18,6 @@ public class UploadPdfModel : PageModel
 
     public string? Message { get; set; }
 
-    // dossier où on stocke les PDF (accessible aussi par FrontOffice)
     private const string PdfRoot = "/home/dm/biblioflow/pdfs";
 
     public async Task<IActionResult> OnGetAsync()
