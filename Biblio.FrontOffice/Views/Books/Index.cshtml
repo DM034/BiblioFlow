@@ -1,0 +1,35 @@
+@model List<Biblio.FrontOffice.Data.BookRow>
+@{
+    int page = ViewBag.Page ?? 1;
+    int pageSize = ViewBag.PageSize ?? 10;
+    int total = ViewBag.Total ?? 0;
+    string? q = ViewBag.Q as string;
+    int pages = (int)Math.Ceiling(total / (double)pageSize);
+}
+
+<h2>Catalogue</h2>
+
+<form method="get">
+  <input name="q" value="@q" placeholder="Search title/author" />
+  <button type="submit">Search</button>
+</form>
+
+<table class="table">
+  <thead><tr><th>Title</th><th>Author</th><th>Category</th></tr></thead>
+  <tbody>
+  @foreach (var b in Model)
+  {
+    <tr>
+      <td>@b.Title</td>
+      <td>@b.Author</td>
+      <td>@b.Category</td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<div>
+   Page @(page) / @(pages)
+  @if (page > 1) { <a href="?page=@(page-1)&pageSize=@pageSize&q=@q">Prev</a> }
+  @if (page < pages) { <a href="?page=@(page+1)&pageSize=@pageSize&q=@q">Next</a> }
+</div>

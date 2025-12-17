@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Biblio.BackOffice/Biblio.BackOffice.csproj" />
+  <Project Path="Biblio.FrontOffice/Biblio.FrontOffice.csproj" />
+</Solution>
