@@ -34,6 +34,6 @@ Aucun téléchargement permanent n'est nécessaire : **à l'échéance, l'API bl
 ```bash
 docker run -d --name sql1 \
   -e "ACCEPT_EULA=Y" \
-  -e "MSSQL_SA_PASSWORD=VotreMotDePasseFort!123" \
+  -e "MSSQL_SA_PASSWORD=Root12345678" \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2022-latest
