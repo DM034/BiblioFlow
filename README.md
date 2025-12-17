@@ -32,7 +32,7 @@ Aucun téléchargement permanent n'est nécessaire : **à l'échéance, l'API bl
 ### 1) SQL Server (Docker)
 À la racine :
 ```bash
-docker run -d --name sql1 \
+docker run -d --name sql1biblio \
   -e "ACCEPT_EULA=Y" \
   -e "MSSQL_SA_PASSWORD=Root12345678" \
   -p 1433:1433 \
