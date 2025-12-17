@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Biblio.FrontOffice")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0442e41fc672fb7d9f31b5e0c9f6795d8093c6fd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7d1c3aca2481b10337ca02b371cf4a8ffb27cbd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Biblio.FrontOffice")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Biblio.FrontOffice")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

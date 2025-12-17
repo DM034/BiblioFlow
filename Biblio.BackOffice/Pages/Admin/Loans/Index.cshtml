@@ -1,0 +1,28 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Loans.IndexModel
+
+<h2>Loans (Admin)</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>User</th>
+      <th>Start</th>
+      <th>Due</th>
+      <th>Returned</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var l in Model.Rows)
+  {
+    <tr>
+      <td>@l.BookTitle</td>
+      <td>@l.UserEmail</td>
+      <td>@l.StartAt</td>
+      <td>@l.DueAt</td>
+      <td>@(l.ReturnedAt?.ToString() ?? "")</td>
+    </tr>
+  }
+  </tbody>
+</table>

@@ -1,0 +1,39 @@
+@model List<Biblio.FrontOffice.Data.UserLoanRow>
+
+<h2>My Loans</h2>
+
+<p><a href="/Books">Back to catalogue</a></p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Start</th>
+      <th>Due</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var l in Model)
+  {
+    var status = l.ReturnedAt != null ? "Returned" : (DateTime.UtcNow > l.DueAt ? "Overdue" : "Active");
+    <tr>
+      <td>@l.Title</td>
+      <td>@l.StartAt</td>
+      <td>@l.DueAt</td>
+      <td>@status</td>
+      <td>
+        @if (l.ReturnedAt == null)
+        {
+          <form method="post" action="/Loans/Return" style="display:inline">
+            <input type="hidden" name="bookId" value="@l.BookId" />
+            <button type="submit">Return</button>
+          </form>
+          <a href="/Books/Read/@l.BookId" target="_blank">Read</a>
+        }
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>

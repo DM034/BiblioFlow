@@ -67,7 +67,6 @@ WHERE BookId=@b AND UserEmail=@u AND ReturnedAt IS NULL AND GETUTCDATE() <= DueA
         await using var cn = new SqlConnection(_cs);
         await cn.OpenAsync();
 
-        // seats (si pas de ligne Licenses, on considère 1)
         var seatsCmd = new SqlCommand("SELECT ConcurrentSeats FROM Licenses WHERE BookId=@b", cn);
         seatsCmd.Parameters.AddWithValue("@b", bookId);
         var seatsObj = await seatsCmd.ExecuteScalarAsync();
@@ -105,6 +104,20 @@ WHERE Id=@id AND UserEmail=@u AND ReturnedAt IS NULL;", cn);
         await cmd.ExecuteNonQueryAsync();
     }
 
+    public async Task ReturnByBookAsync(int bookId, string userEmail)
+    {
+        await using var cn = new SqlConnection(_cs);
+        await cn.OpenAsync();
+
+        var cmd = new SqlCommand(@"
+UPDATE Loans SET ReturnedAt = GETUTCDATE()
+WHERE BookId=@b AND UserEmail=@u AND ReturnedAt IS NULL;", cn);
+
+        cmd.Parameters.AddWithValue("@b", bookId);
+        cmd.Parameters.AddWithValue("@u", userEmail);
+        await cmd.ExecuteNonQueryAsync();
+    }
+
     public async Task<string?> GetPdfPathAsync(int bookId)
     {
         await using var cn = new SqlConnection(_cs);
@@ -114,6 +127,39 @@ WHERE Id=@id AND UserEmail=@u AND ReturnedAt IS NULL;", cn);
         cmd.Parameters.AddWithValue("@id", bookId);
         return (string?)await cmd.ExecuteScalarAsync();
     }
+
+    public async Task<List<UserLoanRow>> GetUserLoansAsync(string userEmail)
+    {
+        var items = new List<UserLoanRow>();
+        await using var cn = new SqlConnection(_cs);
+        await cn.OpenAsync();
+
+        var sql = @"
+SELECT l.Id, l.BookId, b.Title, l.StartAt, l.DueAt, l.ReturnedAt
+FROM Loans l
+JOIN Books b ON b.Id = l.BookId
+WHERE l.UserEmail=@u
+ORDER BY l.ReturnedAt ASC, l.DueAt ASC;";
+
+        await using var cmd = new SqlCommand(sql, cn);
+        cmd.Parameters.AddWithValue("@u", userEmail);
+
+        await using var r = await cmd.ExecuteReaderAsync();
+        while (await r.ReadAsync())
+        {
+            items.Add(new UserLoanRow(
+                r.GetInt32(0),
+                r.GetInt32(1),
+                r.GetString(2),
+                r.GetDateTime(3),
+                r.GetDateTime(4),
+                r.IsDBNull(5) ? null : r.GetDateTime(5)
+            ));
+        }
+
+        return items;
+    }
 }
 
 public record BookRow(int Id, string Title, string Author, string Category, int? Year, string Summary);
+public record UserLoanRow(int LoanId, int BookId, string Title, DateTime StartAt, DateTime DueAt, DateTime? ReturnedAt);

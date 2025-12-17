@@ -1,0 +1,20 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Books.UploadPdfModel
+@{
+  ViewData["Title"] = "Upload PDF";
+}
+
+<h2>Upload PDF</h2>
+
+<p>BookId: <b>@Model.BookId</b></p>
+
+<form method="post" enctype="multipart/form-data">
+  <input type="hidden" name="BookId" value="@Model.BookId" />
+  <input type="file" name="PdfFile" accept="application/pdf" required />
+  <button type="submit">Upload</button>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+  <p><b>@Model.Message</b></p>
+}

@@ -1,0 +1,17 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Books.ImportCsvModel
+@{
+    ViewData["Title"] = "Import CSV";
+}
+
+<h2>Import CSV (Books + Licenses)</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="CsvFile" accept=".csv" required />
+    <button type="submit">Import</button>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+    <p><b>@Model.Message</b></p>
+}

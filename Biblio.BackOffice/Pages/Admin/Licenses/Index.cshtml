@@ -1,0 +1,27 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Licenses.IndexModel
+@{
+    ViewData["Title"] = "Licenses";
+}
+
+<h2>Licenses (Concurrent Seats)</h2>
+
+<table class="table">
+  <thead><tr><th>Book</th><th>Seats</th><th></th></tr></thead>
+  <tbody>
+  @foreach (var row in Model.Rows)
+  {
+    <tr>
+      <td>@row.Title</td>
+      <td>
+        <form method="post">
+          <input type="hidden" name="BookId" value="@row.BookId" />
+          <input type="number" name="Seats" value="@row.Seats" min="1" />
+          <button type="submit">Save</button>
+        </form>
+      </td>
+      <td></td>
+    </tr>
+  }
+  </tbody>
+</table>

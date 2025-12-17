@@ -30,6 +30,46 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ExportPdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRXhwb3J0UGRmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ImportCsv.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvSW1wb3J0Q3N2LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/UploadPdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvVXBsb2FkUGRmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Licenses/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTGljZW5zZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Loans/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTG9hbnMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
