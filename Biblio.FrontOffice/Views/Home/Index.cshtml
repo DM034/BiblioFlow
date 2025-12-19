@@ -1,8 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row align-items-center g-4">
+  <div class="col-lg-7">
+    <div class="p-4 p-lg-5 card">
+      <h1 class="display-6 fw-semibold mb-3">Your digital library, with real borrowing rules.</h1>
+      <p class="muted mb-4">
+        Browse books, borrow with seat licensing, read PDFs during the loan period, and manage returns.
+      </p>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-primary" asp-controller="Books" asp-action="Index">Open Catalogue</a>
+        <a class="btn btn-outline-light" asp-controller="Loans" asp-action="Index">My Loans</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h5 class="fw-semibold mb-3">Quick checklist</h5>
+      <ul class="mb-0 muted">
+        <li>Create books in BackOffice</li>
+        <li>Upload PDF for a book (BackOffice)</li>
+        <li>Borrow from FrontOffice</li>
+        <li>Read during loan period</li>
+        <li>Return to free a seat</li>
+      </ul>
+    </div>
+  </div>
 </div>

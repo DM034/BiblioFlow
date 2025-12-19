@@ -1,39 +1,77 @@
-@model List<Biblio.FrontOffice.Data.UserLoanRow>
+@model IEnumerable<UserLoanRow>
+@{
+    ViewData["Title"] = "My Loans";
+    var now = DateTime.UtcNow;
+}
 
-<h2>My Loans</h2>
+<div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
+  <div>
+    <h2 class="mb-1 fw-semibold">My Loans</h2>
+    <div class="muted">Active, overdue, and returned history.</div>
+  </div>
+</div>
 
-<p><a href="/Books">Back to catalogue</a></p>
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th style="width:34%">Book</th>
+            <th style="width:16%">Start</th>
+            <th style="width:16%">Due</th>
+            <th style="width:14%">Status</th>
+            <th style="width:20%" class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var l in Model)
+          {
+            var returned = l.ReturnedAt.HasValue;
+            var overdue = !returned && l.DueAt.ToUniversalTime() < now;
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Start</th>
-      <th>Due</th>
-      <th>Status</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach (var l in Model)
-  {
-    var status = l.ReturnedAt != null ? "Returned" : (DateTime.UtcNow > l.DueAt ? "Overdue" : "Active");
-    <tr>
-      <td>@l.Title</td>
-      <td>@l.StartAt</td>
-      <td>@l.DueAt</td>
-      <td>@status</td>
-      <td>
-        @if (l.ReturnedAt == null)
-        {
-          <form method="post" action="/Loans/Return" style="display:inline">
-            <input type="hidden" name="bookId" value="@l.BookId" />
-            <button type="submit">Return</button>
-          </form>
-          <a href="/Books/Read/@l.BookId" target="_blank">Read</a>
-        }
-      </td>
-    </tr>
-  }
-  </tbody>
-</table>
+            <tr>
+              <td class="fw-semibold">
+                <a asp-controller="Books" asp-action="Details" asp-route-id="@l.BookId">@l.Title</a>
+              </td>
+              <td class="muted">@l.StartAt.ToString("yyyy-MM-dd HH:mm")</td>
+              <td class="muted">@l.DueAt.ToString("yyyy-MM-dd HH:mm")</td>
+              <td>
+                @if (returned)
+                {
+                  <span class="badge bg-secondary">Returned</span>
+                }
+                else if (overdue)
+                {
+                  <span class="badge bg-danger">Overdue</span>
+                }
+                else
+                {
+                  <span class="badge bg-success">Active</span>
+                }
+              </td>
+              <td class="text-end">
+                <div class="d-inline-flex gap-2">
+                  <a class="btn btn-sm btn-outline-light"
+                     asp-controller="Books" asp-action="Read" asp-route-id="@l.BookId">Read</a>
+
+                  @if (!returned)
+                  {
+                    <form method="post" asp-controller="Loans" asp-action="Return" asp-route-loanId="@l.LoanId">
+                      <button class="btn btn-sm btn-primary" type="submit">Return</button>
+                    </form>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+
+          @if (!Model.Any())
+          {
+            <tr><td colspan="5" class="p-4 muted">No loans yet.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

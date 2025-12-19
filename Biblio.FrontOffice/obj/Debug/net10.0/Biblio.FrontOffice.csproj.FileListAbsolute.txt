@@ -22,7 +22,6 @@
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/scopedcss/bundle/Biblio.FrontOffice.styles.css
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/scopedcss/projectbundle/Biblio.FrontOffice.bundle.scp.css
-/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/kuye0ar6ke-{0}-lugek5hnai-lugek5hnai.gz
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/ojyujsb706-{0}-61n19gt1b8-61n19gt1b8.gz
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/9eowh90862-{0}-fr7q2aak1r-fr7q2aak1r.gz
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/osulwk0d6w-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -135,3 +134,4 @@
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/bin/Debug/net10.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/bin/Debug/net10.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/Biblio.F.684701FB.Up2Date
+/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/kuye0ar6ke-{0}-7cc0mtw89i-7cc0mtw89i.gz

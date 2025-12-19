@@ -1,31 +1,20 @@
-html {
-  font-size: 14px;
-}
+:root { --card-radius: 14px; }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+body { background: #0b1220; }
+.bg-app { background: radial-gradient(900px 500px at 10% 0%, rgba(99,102,241,.20), transparent 60%),
+                   radial-gradient(800px 500px at 90% 10%, rgba(16,185,129,.14), transparent 55%),
+                   radial-gradient(900px 600px at 50% 100%, rgba(59,130,246,.12), transparent 60%),
+                   #0b1220; }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
-}
+.card { border-radius: var(--card-radius); border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.04); }
+.card-header { border-bottom: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); }
+.table { color: rgba(255,255,255,.9); }
+.table thead th { color: rgba(255,255,255,.75); border-bottom-color: rgba(255,255,255,.10); }
+.table tbody td { border-top-color: rgba(255,255,255,.08); }
+.form-control, .form-select { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: rgba(255,255,255,.92); }
+.form-control::placeholder { color: rgba(255,255,255,.45); }
+.btn { border-radius: 12px; }
+.badge { border-radius: 999px; padding: .45rem .65rem; }
+.muted { color: rgba(255,255,255,.60); }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }

@@ -1,0 +1,43 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Book";
+    BookRow b = (BookRow)Model.Book;
+}
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card p-4">
+      <h2 class="fw-semibold mb-2">@b.Title</h2>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="badge bg-secondary">@b.Author</span>
+        <span class="badge bg-secondary">@b.Category</span>
+        <span class="badge bg-secondary">@(b.Year?.ToString() ?? "—")</span>
+      </div>
+
+      @if (!string.IsNullOrWhiteSpace(b.Summary))
+      {
+        <p class="muted mb-0">@b.Summary</p>
+      }
+      else
+      {
+        <p class="muted mb-0">No summary.</p>
+      }
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card p-4">
+      <h5 class="fw-semibold mb-3">Actions</h5>
+
+      <div class="d-grid gap-2">
+        <form method="post" asp-controller="Books" asp-action="Borrow" asp-route-id="@b.Id">
+          <button class="btn btn-primary" type="submit">Borrow</button>
+        </form>
+
+        <a class="btn btn-outline-light" asp-controller="Books" asp-action="Read" asp-route-id="@b.Id">Read</a>
+
+        <a class="btn btn-outline-light" asp-controller="Books" asp-action="Index">Back to Catalogue</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,16 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+    <p class="mt-2">
+        <a class="btn btn-outline-primary"
+            href="/Admin/Books/UploadPdf?BookId=@Model.Book.Id">
+            Upload PDF
+        </a>
+    </p>
+    @if (!string.IsNullOrWhiteSpace(Model.Book.PdfPath))
+    {
+        <p>Current PdfPath: <code>@Model.Book.PdfPath</code></p>
+    }
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Book.Id" />
@@ -48,14 +58,6 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
-        <p>
-        <a href="/Admin/Books/UploadPdf?BookId=@Model.Book.Id">Upload PDF for this book</a>
-        </p>
-
-        @if (!string.IsNullOrWhiteSpace(Model.Book.PdfPath))
-        {
-        <p>Current PdfPath: <code>@Model.Book.PdfPath</code></p>
-        }
     </div>
 </div>
 

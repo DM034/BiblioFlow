@@ -7,10 +7,10 @@ public class Book
     public string Author { get; set; } = "";
     public string Category { get; set; } = "";
     public int? Year { get; set; }
-    public string Summary { get; set; } = "";
+    public string? Summary { get; set; }
 
     // Modèle A: le PDF reste sur le serveur
-    public string PdfPath { get; set; } = "";
+    public string? PdfPath { get; set; }
 
     public License? License { get; set; }
 }

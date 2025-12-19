@@ -1,64 +1,83 @@
 @model List<Biblio.FrontOffice.Data.BookRow>
 @{
+    ViewData["Title"] = "Catalogue";
+
     int page = ViewBag.Page ?? 1;
+    int pages = ViewBag.Pages ?? 1;
     int pageSize = ViewBag.PageSize ?? 10;
-    int total = ViewBag.Total ?? 0;
-    string? q = ViewBag.Q as string;
-    int pages = (int)Math.Ceiling(total / (double)pageSize);
-    string? email = ViewBag.Email as string;
-    string? msg = ViewBag.Msg as string;
+    string q = ViewBag.Q ?? "";
 }
 
-<h2>BiblioFlow — Catalogue</h2>
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+  <div>
+    <h2 class="mb-1 fw-semibold">Catalogue</h2>
+    <div class="muted">Browse, search, borrow, read.</div>
+  </div>
 
-@if (!string.IsNullOrWhiteSpace(msg))
-{
-    <p><b>@msg</b></p>
-}
+  <form class="d-flex gap-2" method="get" asp-controller="Books" asp-action="Index">
+    <input class="form-control" style="min-width:280px" name="q" value="@q" placeholder="Search by title or author..." />
+    <input type="hidden" name="pageSize" value="@pageSize" />
+    <button class="btn btn-outline-light" type="submit">Search</button>
+  </form>
+</div>
 
-@if (string.IsNullOrWhiteSpace(email))
-{
-    <p><a href="/Account/Login">Login</a></p>
-}
-else
-{
-    <form method="post" action="/Account/Logout">
-      Logged as: <b>@email</b>
-      <button type="submit">Logout</button>
-    </form>
-}
-@if (!string.IsNullOrWhiteSpace(email))
-{
-  <p><a href="/Loans">My Loans</a></p>
-}
+<div class="card">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th style="width:38%">Title</th>
+            <th style="width:22%">Author</th>
+            <th style="width:18%">Category</th>
+            <th style="width:8%">Year</th>
+            <th style="width:14%" class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var b in Model)
+          {
+            <tr>
+              <td class="fw-semibold">
+                <a asp-controller="Books" asp-action="Details" asp-route-id="@b.Id">@b.Title</a>
+              </td>
+              <td>@b.Author</td>
+              <td><span class="badge bg-secondary">@b.Category</span></td>
+              <td>@(b.Year?.ToString() ?? "—")</td>
+              <td class="text-end">
+                <div class="d-inline-flex gap-2">
+                  <form method="post" asp-controller="Books" asp-action="Borrow" asp-route-id="@b.Id">
+                    <button class="btn btn-sm btn-primary" type="submit">Borrow</button>
+                  </form>
+                  <a class="btn btn-sm btn-outline-light" asp-controller="Books" asp-action="Read" asp-route-id="@b.Id">Read</a>
+                </div>
+              </td>
+            </tr>
+          }
 
-<form method="get">
-  <input name="q" value="@q" placeholder="Search title/author" />
-  <button type="submit">Search</button>
-</form>
+          @if (!Model.Any())
+          {
+            <tr><td colspan="5" class="p-4 muted">No books found.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<table class="table">
-  <thead><tr><th>Title</th><th>Author</th><th>Category</th><th></th></tr></thead>
-  <tbody>
-  @foreach (var b in Model)
-  {
-    <tr>
-      <td>@b.Title</td>
-      <td>@b.Author</td>
-      <td>@b.Category</td>
-      <td>
-        <form method="post" action="/Books/Borrow/@b.Id" style="display:inline">
-          <button type="submit">Borrow</button>
-        </form>
-        <a href="/Books/Read/@b.Id" target="_blank">Read</a>
-      </td>
-    </tr>
-  }
-  </tbody>
-</table>
+  <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div class="muted">Page <b>@(page)</b> / <b>@pages</b></div>
 
-<div>
-   Page @(page) / @(pages)
-  @if (page > 1) { <a href="?page=@(page-1)&pageSize=@pageSize&q=@q">Prev</a> }
-  @if (page < pages) { <a href="?page=@(page+1)&pageSize=@pageSize&q=@q">Next</a> }
+    <div class="d-flex gap-2">
+      @if (page > 1)
+      {
+        <a class="btn btn-sm btn-outline-light"
+           href="?page=@(page-1)&pageSize=@pageSize&q=@q">Prev</a>
+      }
+      @if (page < pages)
+      {
+        <a class="btn btn-sm btn-outline-light"
+           href="?page=@(page+1)&pageSize=@pageSize&q=@q">Next</a>
+      }
+    </div>
+  </div>
 </div>

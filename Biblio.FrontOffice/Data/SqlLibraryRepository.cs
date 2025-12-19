@@ -34,13 +34,17 @@ OFFSET @off ROWS FETCH NEXT @ps ROWS ONLY;";
         await using var r = await cmd.ExecuteReaderAsync();
         while (await r.ReadAsync())
         {
+            var category = r.IsDBNull(3) ? "General" : r.GetString(3);
+            var year = r.IsDBNull(4) ? (int?)null : r.GetInt32(4);
+            var summary = r.IsDBNull(5) ? "" : r.GetString(5);
+
             items.Add(new BookRow(
                 r.GetInt32(0),
                 r.GetString(1),
                 r.GetString(2),
-                r.GetString(3),
-                r.IsDBNull(4) ? null : r.GetInt32(4),
-                r.GetString(5)
+                category,
+                year,
+                summary
             ));
         }
 
@@ -125,7 +129,9 @@ WHERE BookId=@b AND UserEmail=@u AND ReturnedAt IS NULL;", cn);
 
         var cmd = new SqlCommand("SELECT PdfPath FROM Books WHERE Id=@id;", cn);
         cmd.Parameters.AddWithValue("@id", bookId);
-        return (string?)await cmd.ExecuteScalarAsync();
+
+        var val = await cmd.ExecuteScalarAsync();
+        return val == null || val == DBNull.Value ? null : (string)val;
     }
 
     public async Task<List<UserLoanRow>> GetUserLoansAsync(string userEmail)

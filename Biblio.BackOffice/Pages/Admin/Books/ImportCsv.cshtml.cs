@@ -3,7 +3,6 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Biblio.BackOffice.Data;
 using Biblio.BackOffice.Models;
 
@@ -14,7 +13,9 @@ public class ImportCsvModel : PageModel
     private readonly LibraryDbContext _db;
     public ImportCsvModel(LibraryDbContext db) => _db = db;
 
-    [BindProperty] public IFormFile? CsvFile { get; set; }
+    [BindProperty]
+    public IFormFile? CsvFile { get; set; }
+
     public string? Message { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
@@ -28,54 +29,63 @@ public class ImportCsvModel : PageModel
         var cfg = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             HasHeaderRecord = true,
-            Delimiter = ","
+            Delimiter = ",",
+            BadDataFound = null
         };
 
-        int created = 0;
+        int created = 0, skipped = 0;
 
         using var stream = CsvFile.OpenReadStream();
         using var reader = new StreamReader(stream);
         using var csv = new CsvReader(reader, cfg);
 
-        var rows = csv.GetRecords<BookCsvRow>().ToList();
+        var rows = csv.GetRecords<Row>().ToList();
 
         foreach (var r in rows)
         {
+            if (string.IsNullOrWhiteSpace(r.Title) || string.IsNullOrWhiteSpace(r.Author))
+            {
+                skipped++;
+                continue;
+            }
+
+            var exists = _db.Books.Any(b => b.Title == r.Title && b.Author == r.Author);
+            if (exists) { skipped++; continue; }
+
             var book = new Book
             {
-                Title = r.Title?.Trim() ?? "",
-                Author = r.Author?.Trim() ?? "",
-                Category = r.Category?.Trim() ?? "",
+                Title = r.Title.Trim(),
+                Author = r.Author.Trim(),
+                Category = string.IsNullOrWhiteSpace(r.Category) ? "General" : r.Category.Trim(),
                 Year = r.Year,
-                Summary = r.Summary?.Trim() ?? "",
-                PdfPath = r.PdfPath?.Trim() ?? ""
+                Summary = string.IsNullOrWhiteSpace(r.Summary) ? null : r.Summary.Trim(),
+                PdfPath = null
             };
 
             _db.Books.Add(book);
-            await _db.SaveChangesAsync(); // pour obtenir book.Id
+            await _db.SaveChangesAsync();
 
             _db.Licenses.Add(new License
             {
                 BookId = book.Id,
-                ConcurrentSeats = r.ConcurrentSeats <= 0 ? 1 : r.ConcurrentSeats
+                ConcurrentSeats = r.ConcurrentSeats > 0 ? r.ConcurrentSeats : 1
             });
 
+            await _db.SaveChangesAsync();
             created++;
         }
 
-        await _db.SaveChangesAsync();
-        Message = $"Imported: {created} book(s).";
+        Message = $"Imported: {created}\nSkipped: {skipped}";
         return Page();
     }
 
-    public class BookCsvRow
+    public class Row
     {
-        public string? Title { get; set; }
-        public string? Author { get; set; }
+        public string Title { get; set; } = "";
+        public string Author { get; set; } = "";
         public string? Category { get; set; }
         public int? Year { get; set; }
         public string? Summary { get; set; }
-        public string? PdfPath { get; set; }
         public int ConcurrentSeats { get; set; } = 1;
     }
 }

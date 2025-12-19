@@ -13,12 +13,15 @@ public class BooksController : Controller
     public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? q = null)
     {
         var (items, total) = await _repo.GetBooksAsync(page, pageSize, q);
+
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
         ViewBag.Total = total;
-        ViewBag.Q = q;
+        ViewBag.Pages = (int)Math.Ceiling(total / (double)pageSize);
+        ViewBag.Q = q ?? "";
         ViewBag.Email = Email;
         ViewBag.Msg = TempData["Msg"] as string;
+
         return View(items);
     }
 
@@ -39,12 +42,15 @@ public class BooksController : Controller
     [HttpGet]
     public async Task<IActionResult> Read(int id)
     {
-        if (string.IsNullOrWhiteSpace(Email)) return RedirectToAction("Login", "Account");
+        if (string.IsNullOrWhiteSpace(Email))
+            return RedirectToAction("Login", "Account");
 
-        if (!await _repo.HasActiveLoanAsync(id, Email!)) return Forbid();
+        if (!await _repo.HasActiveLoanAsync(id, Email!))
+            return Forbid();
 
         var path = await _repo.GetPdfPathAsync(id);
-        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path)) return NotFound("PDF not found");
+        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
+            return NotFound("PDF not found");
 
         var stream = System.IO.File.OpenRead(path);
         return File(stream, "application/pdf", enableRangeProcessing: true);
