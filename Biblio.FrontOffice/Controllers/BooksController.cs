@@ -10,19 +10,29 @@ public class BooksController : Controller
 
     private string? Email => HttpContext.Session.GetString("email");
 
-    public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? q = null)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? q = null, bool onlyAvailable = false)
     {
-        var (items, total) = await _repo.GetBooksAsync(page, pageSize, q);
+        var (items, total) = await _repo.GetBooksAsync(page, pageSize, q, onlyAvailable);
 
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
         ViewBag.Total = total;
-        ViewBag.Pages = (int)Math.Ceiling(total / (double)pageSize);
         ViewBag.Q = q ?? "";
+        ViewBag.OnlyAvailable = onlyAvailable;
+        ViewBag.Pages = (int)Math.Ceiling(total / (double)pageSize);
         ViewBag.Email = Email;
-        ViewBag.Msg = TempData["Msg"] as string;
 
         return View(items);
+    }
+
+    public async Task<IActionResult> MyLoans()
+    {
+        if (string.IsNullOrWhiteSpace(Email))
+            return RedirectToAction("Login", "Account");
+
+        var loans = await _repo.GetUserLoansAsync(Email!);
+        ViewBag.Email = Email;
+        return View(loans);
     }
 
     [HttpPost]
@@ -39,18 +49,26 @@ public class BooksController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Read(int id)
+    [HttpPost]
+    public async Task<IActionResult> ReturnByBook(int id)
     {
         if (string.IsNullOrWhiteSpace(Email))
             return RedirectToAction("Login", "Account");
 
-        if (!await _repo.HasActiveLoanAsync(id, Email!))
-            return Forbid();
+        await _repo.ReturnByBookAsync(id, Email!);
+        TempData["Msg"] = "Returned.";
+        return RedirectToAction(nameof(MyLoans));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Read(int id)
+    {
+        if (string.IsNullOrWhiteSpace(Email)) return RedirectToAction("Login", "Account");
+
+        if (!await _repo.HasActiveLoanAsync(id, Email!)) return Forbid();
 
         var path = await _repo.GetPdfPathAsync(id);
-        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
-            return NotFound("PDF not found");
+        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path)) return NotFound("PDF not found");
 
         var stream = System.IO.File.OpenRead(path);
         return File(stream, "application/pdf", enableRangeProcessing: true);

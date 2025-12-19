@@ -26,9 +26,12 @@
     </a>
 
     <div class="d-flex align-items-center gap-2">
+      <a class="btn btn-ghost btn-sm" href="/Books">Catalogue</a>
+
       @if (isAuth)
       {
-        <span class="fo-pill">Logged as: <strong>@email</strong></span>
+        <a class="btn btn-ghost btn-sm" href="/Books/MyLoans">Mes emprunts</a>
+        <span class="fo-pill">Logged as: <strong class="text-truncate" style="max-width:240px;display:inline-block;vertical-align:bottom;">@email</strong></span>
         <a class="btn btn-ghost btn-sm" href="/Account/Logout">Logout</a>
       }
       else
@@ -39,19 +42,19 @@
   </div>
 </header>
 
-<main class="container pb-4">
+<main class="container py-3">
   @if (TempData["Msg"] is string msg && !string.IsNullOrWhiteSpace(msg))
   {
-    <div class="alert alert-info mt-3">@msg</div>
+    <div class="alert alert-info">@msg</div>
   }
   @if (TempData["Error"] is string err && !string.IsNullOrWhiteSpace(err))
   {
-    <div class="alert alert-danger mt-3">@err</div>
+    <div class="alert alert-danger">@err</div>
   }
 
   @RenderBody()
 
-  <div class="fo-footer">
+  <div class="fo-footer mt-4">
     © @DateTime.UtcNow.Year BiblioFlow
   </div>
 </main>
