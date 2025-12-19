@@ -12,16 +12,21 @@ public class LoansController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (string.IsNullOrWhiteSpace(Email)) return RedirectToAction("Login", "Account");
-        var loans = await _repo.GetUserLoansAsync(Email!);
-        return View(loans);
+        if (string.IsNullOrWhiteSpace(Email))
+            return RedirectToAction("Login", "Account");
+
+        var items = await _repo.GetUserLoansAsync(Email!);
+        return View(items);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Return(int bookId)
+    public async Task<IActionResult> Return(int loanId)
     {
-        if (string.IsNullOrWhiteSpace(Email)) return RedirectToAction("Login", "Account");
-        await _repo.ReturnByBookAsync(bookId, Email!);
+        if (string.IsNullOrWhiteSpace(Email))
+            return RedirectToAction("Login", "Account");
+
+        await _repo.ReturnAsync(loanId, Email!);
+        TempData["Msg"] = "Returned.";
         return RedirectToAction(nameof(Index));
     }
 }

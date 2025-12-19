@@ -6,6 +6,15 @@
     int pages = ViewBag.Pages ?? 1;
     int pageSize = ViewBag.PageSize ?? 10;
     string q = ViewBag.Q ?? "";
+    string? email = ViewBag.Email as string;
+    string? msg = ViewBag.Msg as string;
+}
+
+@if (!string.IsNullOrWhiteSpace(msg))
+{
+  <div class="alert alert-info border-0" style="background:rgba(59,130,246,.14); color:#dbeafe">
+    @msg
+  </div>
 }
 
 <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
@@ -38,9 +47,7 @@
           @foreach (var b in Model)
           {
             <tr>
-              <td class="fw-semibold">
-                <a asp-controller="Books" asp-action="Details" asp-route-id="@b.Id">@b.Title</a>
-              </td>
+              <td class="fw-semibold">@b.Title</td>
               <td>@b.Author</td>
               <td><span class="badge bg-secondary">@b.Category</span></td>
               <td>@(b.Year?.ToString() ?? "—")</td>
@@ -81,3 +88,10 @@
     </div>
   </div>
 </div>
+
+@if (string.IsNullOrWhiteSpace(email))
+{
+  <div class="mt-3 muted">
+    You are not logged in. <a asp-controller="Account" asp-action="Login">Login</a> to borrow/read.
+  </div>
+}
