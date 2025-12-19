@@ -1,20 +1,23 @@
-@page
+@page "{id:int}"
 @model Biblio.BackOffice.Pages.Admin.Books.UploadPdfModel
 @{
-  ViewData["Title"] = "Upload PDF";
+    ViewData["Title"] = "Upload PDF";
 }
-
 <h2>Upload PDF</h2>
 
-<p>BookId: <b>@Model.BookId</b></p>
+<p><b>@Model.Book?.Title</b> — @Model.Book?.Author</p>
 
 <form method="post" enctype="multipart/form-data">
-  <input type="hidden" name="BookId" value="@Model.BookId" />
-  <input type="file" name="PdfFile" accept="application/pdf" required />
+  <div style="margin:12px 0;">
+    <input type="file" name="Pdf" accept="application/pdf" />
+  </div>
   <button type="submit">Upload</button>
+  <a href="/Admin/Books">Back</a>
 </form>
 
-@if (!string.IsNullOrWhiteSpace(Model.Message))
+@if (!string.IsNullOrWhiteSpace(Model.CurrentPath))
 {
-  <p><b>@Model.Message</b></p>
+  <p style="margin-top:10px;">
+    Current PDF: <code>@Model.CurrentPath</code>
+  </p>
 }

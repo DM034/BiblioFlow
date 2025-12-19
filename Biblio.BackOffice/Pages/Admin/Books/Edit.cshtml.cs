@@ -1,77 +1,38 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Models;
 
-namespace Biblio.BackOffice.Pages.Admin.Books
+namespace Biblio.BackOffice.Pages.Admin.Books;
+
+public class EditModel : PageModel
 {
-    public class EditModel : PageModel
+    private readonly LibraryDbContext _db;
+    public EditModel(LibraryDbContext db) => _db = db;
+
+    [BindProperty] public Book Book { get; set; } = new();
+
+    public async Task<IActionResult> OnGetAsync(int id)
     {
-        private readonly Biblio.BackOffice.Data.LibraryDbContext _context;
+        var b = await _db.Books.FirstOrDefaultAsync(x => x.Id == id);
+        if (b == null) return NotFound();
+        Book = b;
+        return Page();
+    }
 
-        public EditModel(Biblio.BackOffice.Data.LibraryDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var b = await _db.Books.FirstOrDefaultAsync(x => x.Id == Book.Id);
+        if (b == null) return NotFound();
 
-        [BindProperty]
-        public Book Book { get; set; } = default!;
+        b.Title = Book.Title;
+        b.Author = Book.Author;
+        b.Category = Book.Category;
+        b.Year = Book.Year;
+        b.Summary = Book.Summary;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book =  await _context.Books.FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            Book = book;
-            return Page();
-        }
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Attach(Book).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookExists(Book.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.Id == id);
-        }
+        await _db.SaveChangesAsync();
+        return Redirect("/Admin/Books");
     }
 }

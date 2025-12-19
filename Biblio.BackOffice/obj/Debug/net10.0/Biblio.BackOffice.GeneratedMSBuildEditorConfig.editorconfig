@@ -62,6 +62,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvVXBsb2FkUGRmLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Dashboard/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRGFzaGJvYXJkL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Export/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRXhwb3J0L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Import/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSW1wb3J0L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Licenses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTGljZW5zZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,16 +82,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTG9hbnMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
+[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9nb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Shared/_ValidationScriptsPartial.cshtml]

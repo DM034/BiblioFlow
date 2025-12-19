@@ -1,51 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Models;
 
-namespace Biblio.BackOffice.Pages.Admin.Books
+namespace Biblio.BackOffice.Pages.Admin.Books;
+
+public class CreateModel : PageModel
 {
-    public class CreateModel : PageModel
+    private readonly LibraryDbContext _db;
+    public CreateModel(LibraryDbContext db) => _db = db;
+
+    [BindProperty] public Book Book { get; set; } = new();
+
+    public void OnGet() { }
+
+    public async Task<IActionResult> OnPostAsync()
     {
-        private readonly Biblio.BackOffice.Data.LibraryDbContext _context;
-
-        public CreateModel(Biblio.BackOffice.Data.LibraryDbContext context)
-        {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
+        if (string.IsNullOrWhiteSpace(Book.Title) || string.IsNullOrWhiteSpace(Book.Author))
             return Page();
-        }
 
-        [BindProperty]
-        public Book Book { get; set; } = default!;
+        _db.Books.Add(Book);
+        await _db.SaveChangesAsync();
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        // default license
+        if (!_db.Licenses.Any(l => l.BookId == Book.Id))
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.Books.Add(Book);
-            await _context.SaveChangesAsync();
-
-            _context.Licenses.Add(new Biblio.BackOffice.Models.License
-            {
-                BookId = Book.Id,
-                ConcurrentSeats = 1
-            });
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            _db.Licenses.Add(new License { BookId = Book.Id, ConcurrentSeats = 1 });
+            await _db.SaveChangesAsync();
         }
+
+        return Redirect("/Admin/Books");
     }
 }

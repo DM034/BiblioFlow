@@ -19,7 +19,7 @@ namespace Biblio.BackOffice.Pages.Admin.Books
             _context = context;
         }
 
-        public Book Book { get; set; } = default!;
+        public Biblio.BackOffice.Data.Book Book { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

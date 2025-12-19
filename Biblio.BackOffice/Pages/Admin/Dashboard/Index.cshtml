@@ -1,0 +1,21 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Dashboard.IndexModel
+@{
+  ViewData["Title"] = "Dashboard";
+}
+<h2>Dashboard</h2>
+
+<ul>
+  <li>Total books: <b>@Model.TotalBooks</b></li>
+  <li>Books without PDF: <b>@Model.NoPdf</b></li>
+  <li>Active loans: <b>@Model.ActiveLoans</b></li>
+  <li>Overdue loans: <b>@Model.OverdueLoans</b></li>
+</ul>
+
+<h3>Top borrowed</h3>
+<ol>
+@foreach (var x in Model.TopBorrowed)
+{
+  <li>@x.Title — <b>@x.Count</b></li>
+}
+</ol>

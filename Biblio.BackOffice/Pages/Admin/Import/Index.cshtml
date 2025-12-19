@@ -1,0 +1,18 @@
+@page
+@model Biblio.BackOffice.Pages.Admin.Import.IndexModel
+@{
+  ViewData["Title"] = "Import CSV";
+}
+<h2>Import CSV</h2>
+
+<p>Columns (header required): Title;Author;Category;Year;Summary;Seats</p>
+
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="Csv" accept=".csv,text/csv" />
+  <button type="submit">Import</button>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Report))
+{
+  <pre style="margin-top:12px;padding:12px;border:1px solid #ddd;background:#fafafa;white-space:pre-wrap;">@Model.Report</pre>
+}

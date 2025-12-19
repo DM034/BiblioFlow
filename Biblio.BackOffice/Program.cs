@@ -1,30 +1,41 @@
 using Biblio.BackOffice.Data;
 using Microsoft.EntityFrameworkCore;
-using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-QuestPDF.Settings.License = LicenseType.Community;
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddRazorPages();
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+    o.IdleTimeout = TimeSpan.FromHours(8);
+});
+
 builder.Services.AddDbContext<LibraryDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
 app.UseStaticFiles();
-app.MapRazorPages();
+app.UseRouting();
+app.UseSession();
 
-using (var scope = app.Services.CreateScope())
+// Guard /Admin/*
+app.Use(async (ctx, next) =>
 {
-    var db = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
-    db.Database.Migrate();
+    if (ctx.Request.Path.StartsWithSegments("/Admin"))
+    {
+        var admin = ctx.Session.GetString("admin_email");
+        if (string.IsNullOrWhiteSpace(admin))
+        {
+            ctx.Response.Redirect("/Login");
+            return;
+        }
+    }
+    await next();
+});
 
-    var ids = db.Books.Where(b => b.License == null).Select(b => b.Id).ToList();
-    foreach (var id in ids)
-        db.Licenses.Add(new Biblio.BackOffice.Models.License { BookId = id, ConcurrentSeats = 1 });
-
-    if (ids.Count > 0) db.SaveChanges();
-}
-
+app.MapRazorPages();
 app.Run();

@@ -1,0 +1,201 @@
+:root{
+  --bg: #0b1220;
+  --panel: #111a2d;
+  --panel-2: #0f172a;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(255,255,255,.08);
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+body{
+  background: linear-gradient(180deg, #050814 0%, #0b1220 60%, #0b1220 100%);
+}
+
+.app-shell{
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 270px 1fr;
+}
+
+.sidebar{
+  background: rgba(17,26,45,.65);
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.brand{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px 12px 18px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.brand .logo{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0b1220;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.brand .name{
+  color: var(--text);
+  font-weight: 800;
+  line-height: 1.1;
+}
+.brand .sub{
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.nav-group{
+  padding: 12px 10px;
+}
+
+.nav-title{
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 6px 10px;
+}
+
+.nav-linkx{
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 12px;
+  margin: 4px 6px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+}
+.nav-linkx:hover{
+  background: rgba(255,255,255,.06);
+  border-color: var(--border);
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar{
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(15,23,42,.55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title{
+  color: var(--text);
+  font-weight: 700;
+}
+
+.container-fluid{
+  max-width: 1200px;
+}
+
+.footer{
+  margin-top: auto;
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  background: rgba(15,23,42,.35);
+}
+
+.card{
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow);
+}
+
+.table{
+  background: rgba(255,255,255,.02);
+}
+.table thead th{
+  color: #111827;
+}
+/* ========= Fix lisibilité BackOffice (texte trop sombre) ========= */
+:root{
+  --bo-text: #e8eef7;
+  --bo-muted: #aab4c3;
+  --bo-link: #7ab8ff;
+  color-scheme: dark;
+}
+
+body,
+.app-shell,
+.content,
+.sidebar,
+.topbar,
+.footer,
+.container,
+.container-fluid {
+  color: var(--bo-text) !important;
+}
+
+/* Titres */
+.page-title,
+h1,h2,h3,h4,h5,h6 {
+  color: var(--bo-text) !important;
+}
+
+/* Textes bootstrap */
+.text-muted {
+  color: var(--bo-muted) !important;
+}
+.small {
+  color: var(--bo-muted) !important;
+}
+
+/* Liens */
+a, .nav-linkx {
+  color: var(--bo-link) !important;
+}
+a:hover, .nav-linkx:hover {
+  filter: brightness(1.1);
+}
+
+/* Tables */
+.table, .table td, .table th {
+  color: var(--bo-text) !important;
+}
+
+/* Si tu as mis une opacité globale quelque part */
+.content *, .sidebar * {
+  opacity: 1 !important;
+}
+/* ===== Fix tables sur fond blanc (Loans) ===== */
+.table,
+.table thead th,
+.table tbody td {
+  color: #0b1220 !important;      /* texte sombre */
+}
+
+/* si tu utilises striped/hover */
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  color: #0b1220 !important;
+}
+.table-hover > tbody > tr:hover > * {
+  color: #0b1220 !important;
+}
+
+/* liens dans table */
+.table a {
+  color: #0b5ed7 !important;
+}

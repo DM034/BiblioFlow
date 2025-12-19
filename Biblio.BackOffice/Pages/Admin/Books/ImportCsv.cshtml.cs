@@ -52,7 +52,7 @@ public class ImportCsvModel : PageModel
             var exists = _db.Books.Any(b => b.Title == r.Title && b.Author == r.Author);
             if (exists) { skipped++; continue; }
 
-            var book = new Book
+            var book = new Biblio.BackOffice.Data.Book
             {
                 Title = r.Title.Trim(),
                 Author = r.Author.Trim(),
@@ -65,7 +65,7 @@ public class ImportCsvModel : PageModel
             _db.Books.Add(book);
             await _db.SaveChangesAsync();
 
-            _db.Licenses.Add(new License
+            _db.Licenses.Add(new Biblio.BackOffice.Data.License
             {
                 BookId = book.Id,
                 ConcurrentSeats = r.ConcurrentSeats > 0 ? r.ConcurrentSeats : 1

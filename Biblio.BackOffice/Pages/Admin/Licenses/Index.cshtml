@@ -3,32 +3,26 @@
 @{
   ViewData["Title"] = "Licenses";
 }
+<h2>Licenses</h2>
 
-<h2>Licenses (Seats)</h2>
-
-<table class="table">
-  <thead>
-    <tr><th>Book</th><th>Seats</th><th></th></tr>
-  </thead>
-  <tbody>
-  @foreach (var r in Model.Rows)
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>Book</th>
+    <th>Seats</th>
+    <th>Action</th>
+  </tr>
+  @foreach (var row in Model.Rows)
   {
     <tr>
-      <td>@r.BookTitle</td>
+      <td>@row.BookId — <b>@row.Title</b></td>
       <td>
-        <form method="post" style="display:flex; gap:10px; align-items:center">
-          <input type="hidden" name="BookId" value="@r.BookId" />
-          <input type="number" name="Seats" value="@r.Seats" min="1" class="form-control" style="width:120px" />
-          <button type="submit" class="btn btn-primary">Save</button>
+        <form method="post" style="display:flex;gap:8px;align-items:center;">
+          <input type="hidden" name="BookId" value="@row.BookId" />
+          <input name="Seats" value="@row.Seats" style="width:80px;" />
+          <button type="submit">Save</button>
         </form>
       </td>
       <td></td>
     </tr>
   }
-  </tbody>
 </table>
-
-@if (!string.IsNullOrWhiteSpace(Model.Message))
-{
-  <p><b>@Model.Message</b></p>
-}

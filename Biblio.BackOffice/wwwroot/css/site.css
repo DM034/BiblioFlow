@@ -29,3 +29,38 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+/* Force lisibilité sur thème sombre */
+body, .container, main, .card, .table, .form-control, input, select, textarea, label, p, h1, h2, h3, h4, h5, h6, a, th, td {
+  color: #e8e8e8 !important;
+}
+
+.table {
+  color: #e8e8e8 !important;
+}
+
+.table th, .table td {
+  border-color: rgba(255,255,255,.12) !important;
+}
+
+input, select, textarea {
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.18) !important;
+}
+.table, .table * {
+  color: #e8e8e8 !important;
+}
+.table thead th {
+  color: #ffffff !important;
+}
+/* BackOffice - fix lisibilité sur fond sombre */
+:root { color-scheme: dark; }
+
+body, main, .content, .container, .container-fluid,
+h1,h2,h3,h4,h5,h6, p, li, span, small, label,
+a, .nav-link, .navbar-brand, .breadcrumb, .btn,
+.table, .table th, .table td, .card, .card * {
+  color: #e8e8e8 !important;
+}
+
+/* pour les listes du dashboard */
+ul, ol { color: #e8e8e8 !important; }
