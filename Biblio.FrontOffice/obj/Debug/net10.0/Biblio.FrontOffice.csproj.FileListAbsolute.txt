@@ -135,3 +135,4 @@
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/bin/Debug/net10.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/Biblio.F.684701FB.Up2Date
 /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/kuye0ar6ke-{0}-7cc0mtw89i-7cc0mtw89i.gz
+/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/dq8baaeltz-{0}-oz26ss5twa-oz26ss5twa.gz

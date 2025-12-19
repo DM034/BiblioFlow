@@ -1,97 +1,103 @@
 @model List<Biblio.FrontOffice.Data.BookRow>
 @{
-    ViewData["Title"] = "Catalogue";
-
-    int page = ViewBag.Page ?? 1;
-    int pages = ViewBag.Pages ?? 1;
-    int pageSize = ViewBag.PageSize ?? 10;
-    string q = ViewBag.Q ?? "";
-    string? email = ViewBag.Email as string;
-    string? msg = ViewBag.Msg as string;
+  ViewData["Title"] = "Catalogue";
+  var page = (int)(ViewBag.Page ?? 1);
+  var pageSize = (int)(ViewBag.PageSize ?? 10);
+  var total = (int)(ViewBag.Total ?? 0);
+  var q = (string)(ViewBag.Q ?? "");
+  var pages = (int)Math.Ceiling(total / (double)pageSize);
+  if (pages < 1) { pages = 1; }
 }
 
-@if (!string.IsNullOrWhiteSpace(msg))
-{
-  <div class="alert alert-info border-0" style="background:rgba(59,130,246,.14); color:#dbeafe">
-    @msg
-  </div>
-}
+<div class="fo-hero mt-3">
+  <h1>@ViewData["Title"]</h1>
+  <p>Browse, search, borrow, read.</p>
 
-<div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
-  <div>
-    <h2 class="mb-1 fw-semibold">Catalogue</h2>
-    <div class="muted">Browse, search, borrow, read.</div>
-  </div>
-
-  <form class="d-flex gap-2" method="get" asp-controller="Books" asp-action="Index">
-    <input class="form-control" style="min-width:280px" name="q" value="@q" placeholder="Search by title or author..." />
-    <input type="hidden" name="pageSize" value="@pageSize" />
-    <button class="btn btn-outline-light" type="submit">Search</button>
+  <form class="row g-2 mt-2" method="get" action="/Books">
+    <div class="col-12 col-md-8">
+      <input class="form-control" name="q" value="@q" placeholder="Search title or author..." />
+    </div>
+    <div class="col-6 col-md-2">
+      <select class="form-select" name="pageSize">
+        <option value="5" selected="@(pageSize==5)">5</option>
+        <option value="10" selected="@(pageSize==10)">10</option>
+        <option value="20" selected="@(pageSize==20)">20</option>
+        <option value="50" selected="@(pageSize==50)">50</option>
+      </select>
+    </div>
+    <div class="col-6 col-md-2 d-grid">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
   </form>
 </div>
 
-<div class="card">
-  <div class="card-body p-0">
-    <div class="table-responsive">
-      <table class="table table-hover mb-0">
-        <thead>
-          <tr>
-            <th style="width:38%">Title</th>
-            <th style="width:22%">Author</th>
-            <th style="width:18%">Category</th>
-            <th style="width:8%">Year</th>
-            <th style="width:14%" class="text-end">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach (var b in Model)
-          {
-            <tr>
-              <td class="fw-semibold">@b.Title</td>
-              <td>@b.Author</td>
-              <td><span class="badge bg-secondary">@b.Category</span></td>
-              <td>@(b.Year?.ToString() ?? "—")</td>
-              <td class="text-end">
-                <div class="d-inline-flex gap-2">
-                  <form method="post" asp-controller="Books" asp-action="Borrow" asp-route-id="@b.Id">
-                    <button class="btn btn-sm btn-primary" type="submit">Borrow</button>
-                  </form>
-                  <a class="btn btn-sm btn-outline-light" asp-controller="Books" asp-action="Read" asp-route-id="@b.Id">Read</a>
-                </div>
-              </td>
-            </tr>
-          }
+<div class="d-flex align-items-center justify-content-between mt-3">
+  <div class="small text-muted">
+    Total: <strong>@total</strong>
+  </div>
+  <div class="small">
+    Page <strong>@(page)</strong> / <strong>@pages</strong>
+  </div>
+</div>
 
-          @if (!Model.Any())
-          {
-            <tr><td colspan="5" class="p-4 muted">No books found.</td></tr>
-          }
-        </tbody>
-      </table>
-    </div>
+@if (Model.Count == 0)
+{
+  <div class="alert alert-warning mt-3">No books found.</div>
+}
+else
+{
+  <div class="row g-3 mt-1">
+    @foreach (var b in Model)
+    {
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card fo-card h-100">
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <div>
+                <div class="fo-title">@b.Title</div>
+                <div class="fo-sub">@b.Author</div>
+              </div>
+              <span class="badge text-bg-dark">@b.Category</span>
+            </div>
+
+            @if (b.Year != null)
+            {
+              <div class="small text-muted mt-1">Year: @b.Year</div>
+            }
+
+            <p class="fo-summary mt-2 mb-3">
+              @(string.IsNullOrWhiteSpace(b.Summary) ? "—" : b.Summary)
+            </p>
+
+            <div class="mt-auto d-flex gap-2">
+              <form method="post" action="/Books/Borrow/@b.Id">
+                <button class="btn btn-outline-primary btn-sm" type="submit">Borrow</button>
+              </form>
+
+              <a class="btn btn-primary btn-sm" href="/Books/Read/@b.Id" target="_blank">Read</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   </div>
 
-  <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
-    <div class="muted">Page <b>@(page)</b> / <b>@pages</b></div>
+  <div class="d-flex align-items-center justify-content-between mt-4">
+    <div class="small text-muted">
+      Showing @Model.Count items
+    </div>
 
     <div class="d-flex gap-2">
       @if (page > 1)
       {
-        <a class="btn btn-sm btn-outline-light"
+        <a class="btn btn-outline-light btn-sm"
            href="?page=@(page-1)&pageSize=@pageSize&q=@q">Prev</a>
       }
       @if (page < pages)
       {
-        <a class="btn btn-sm btn-outline-light"
+        <a class="btn btn-outline-light btn-sm"
            href="?page=@(page+1)&pageSize=@pageSize&q=@q">Next</a>
       }
     </div>
-  </div>
-</div>
-
-@if (string.IsNullOrWhiteSpace(email))
-{
-  <div class="mt-3 muted">
-    You are not logged in. <a asp-controller="Account" asp-action="Login">Login</a> to borrow/read.
   </div>
 }
