@@ -13,6 +13,11 @@
 @{
   var email = Context.Session.GetString("email");
   var isAuth = !string.IsNullOrWhiteSpace(email);
+  var path = Context.Request.Path.Value ?? "";
+  bool IsPath(string prefix) => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
+  var isBooks = path == "/" || IsPath("/Books");
+  var isLoans = IsPath("/Books/MyLoans") || IsPath("/Loans");
+  var isLogin = IsPath("/Account/Login");
 }
 
 <header class="fo-topbar">
@@ -25,24 +30,26 @@
       </div>
     </a>
 
-    <div class="d-flex align-items-center gap-2">
-      <a class="btn btn-ghost btn-sm" href="/Books">Catalogue</a>
+    <div class="fo-nav">
+      <a class="btn btn-ghost btn-sm @(isBooks ? "active" : "")" href="/Books">Catalogue</a>
 
       @if (isAuth)
       {
-        <a class="btn btn-ghost btn-sm" href="/Books/MyLoans">Mes emprunts</a>
-        <span class="fo-pill">Logged as: <strong class="text-truncate" style="max-width:240px;display:inline-block;vertical-align:bottom;">@email</strong></span>
-        <a class="btn btn-ghost btn-sm" href="/Account/Logout">Logout</a>
+        <a class="btn btn-ghost btn-sm @(isLoans ? "active" : "")" href="/Books/MyLoans">Mes emprunts</a>
+        <span class="fo-pill">Logged as: <strong class="fo-email text-truncate">@email</strong></span>
+        <form method="post" action="/Account/Logout" class="d-inline">
+          <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+        </form>
       }
       else
       {
-        <a class="btn btn-primary btn-sm" href="/Account/Login">Login</a>
+        <a class="btn btn-primary btn-sm @(isLogin ? "active" : "")" href="/Account/Login">Login</a>
       }
     </div>
   </div>
 </header>
 
-<main class="container py-3">
+<main class="container fo-main">
   @if (TempData["Msg"] is string msg && !string.IsNullOrWhiteSpace(msg))
   {
     <div class="alert alert-info">@msg</div>

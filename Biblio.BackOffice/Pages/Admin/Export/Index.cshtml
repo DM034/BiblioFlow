@@ -3,8 +3,18 @@
 @{
   ViewData["Title"] = "Export PDF";
 }
-<h2>Export PDF</h2>
 
-<form method="post">
-  <button type="submit">Download report.pdf</button>
-</form>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Export PDF</h2>
+    <div class="small text-muted">Generate a PDF report with catalogue metrics and top borrowed books.</div>
+  </div>
+</div>
+
+<div class="card border-0">
+  <div class="card-body">
+    <form method="post" class="d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-primary" type="submit">Download report.pdf</button>
+    </form>
+  </div>
+</div>

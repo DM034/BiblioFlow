@@ -13,6 +13,9 @@
 @{
     var adminEmail = Context.Session.GetString("admin_email");
     var isAuth = !string.IsNullOrWhiteSpace(adminEmail);
+  var path = Context.Request.Path.Value ?? "";
+  string NavClass(string prefix) => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ? "nav-linkx active" : "nav-linkx";
+  var title = (ViewData["Title"] as string) ?? "BackOffice";
 }
 
 <div class="app-shell">
@@ -28,26 +31,26 @@
     <div class="nav-group">
       <div class="nav-title">Manage</div>
 
-      <a class="nav-linkx" href="/Admin/Dashboard">
+      <a class="@NavClass("/Admin/Dashboard")" href="/Admin/Dashboard">
         Dashboard
       </a>
-      <a class="nav-linkx" href="/Admin/Books">
+      <a class="@NavClass("/Admin/Books")" href="/Admin/Books">
         Books
       </a>
-      <a class="nav-linkx" href="/Admin/Licenses">
+      <a class="@NavClass("/Admin/Licenses")" href="/Admin/Licenses">
         Licenses
       </a>
-      <a class="nav-linkx" href="/Admin/Loans">
+      <a class="@NavClass("/Admin/Loans")" href="/Admin/Loans">
         Loans
       </a>
     </div>
 
     <div class="nav-group">
       <div class="nav-title">Tools</div>
-      <a class="nav-linkx" href="/Admin/Import">
+      <a class="@NavClass("/Admin/Import")" href="/Admin/Import">
         Import
       </a>
-      <a class="nav-linkx" href="/Admin/Export">
+      <a class="@NavClass("/Admin/Export")" href="/Admin/Export">
         Export
       </a>
     </div>
@@ -58,25 +61,28 @@
         <div class="small text-muted mb-2">Signed in</div>
         <div class="d-flex align-items-center justify-content-between gap-2">
           <div class="small fw-semibold text-truncate">@adminEmail</div>
-          <a class="btn btn-sm btn-outline-light" href="/Logout">Logout</a>
+          <a class="btn btn-sm btn-ghost-light" href="/Logout">Logout</a>
         </div>
       }
       else
       {
-        <a class="btn btn-sm btn-light w-100" href="/Login">Login</a>
+        <a class="btn btn-sm btn-primary w-100" href="/Login">Login</a>
       }
     </div>
   </aside>
 
   <main class="content">
     <header class="topbar">
-      <div class="d-flex align-items-center gap-2">
+      <div>
+        <div class="small text-muted">BiblioFlow · BackOffice</div>
         <div class="page-title">@ViewData["Title"]</div>
       </div>
       <div class="d-flex align-items-center gap-2">
+        <span class="badge bo-badge-soft">@DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm") UTC</span>
         @if (isAuth)
         {
           <span class="badge text-bg-dark">Admin</span>
+          <span class="badge bo-badge-soft bo-badge-user text-truncate" title="@adminEmail">@adminEmail</span>
         }
       </div>
     </header>

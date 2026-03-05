@@ -1,28 +1,68 @@
 @page
 @model Biblio.BackOffice.Pages.Admin.Loans.IndexModel
+@{
+  ViewData["Title"] = "Loans";
+  var now = DateTime.UtcNow;
+}
 
-<h2>Loans (Admin)</h2>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Loans</h2>
+    <div class="small text-muted">Track active, overdue and returned loans.</div>
+  </div>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Book</th>
-      <th>User</th>
-      <th>Start</th>
-      <th>Due</th>
-      <th>Returned</th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach (var l in Model.Rows)
-  {
-    <tr>
-      <td>@l.BookTitle</td>
-      <td>@l.UserEmail</td>
-      <td>@l.StartAt</td>
-      <td>@l.DueAt</td>
-      <td>@(l.ReturnedAt?.ToString() ?? "")</td>
-    </tr>
-  }
-  </tbody>
-</table>
+<div class="card border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th>User</th>
+          <th>Start</th>
+          <th>Due</th>
+          <th>Status</th>
+          <th>Returned</th>
+        </tr>
+      </thead>
+      <tbody>
+      @if (Model.Rows.Count == 0)
+      {
+        <tr>
+          <td colspan="6">
+            <div class="bo-empty my-2">No loans yet.</div>
+          </td>
+        </tr>
+      }
+
+      @foreach (var l in Model.Rows)
+      {
+        var returned = l.ReturnedAt != null;
+        var overdue = !returned && l.DueAt < now;
+
+        <tr>
+          <td class="fw-semibold">@l.BookTitle</td>
+          <td>@l.UserEmail</td>
+          <td>@l.StartAt.ToString("yyyy-MM-dd HH:mm")</td>
+          <td>@l.DueAt.ToString("yyyy-MM-dd HH:mm")</td>
+          <td>
+            @if (returned)
+            {
+              <span class="badge text-bg-secondary">Returned</span>
+            }
+            else if (overdue)
+            {
+              <span class="badge text-bg-danger">Overdue</span>
+            }
+            else
+            {
+              <span class="badge text-bg-success">Active</span>
+            }
+          </td>
+          <td>@(l.ReturnedAt?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>

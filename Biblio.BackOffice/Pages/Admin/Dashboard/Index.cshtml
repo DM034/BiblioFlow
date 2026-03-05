@@ -2,20 +2,139 @@
 @model Biblio.BackOffice.Pages.Admin.Dashboard.IndexModel
 @{
   ViewData["Title"] = "Dashboard";
-}
-<h2>Dashboard</h2>
 
-<ul>
-  <li>Total books: <b>@Model.TotalBooks</b></li>
-  <li>Books without PDF: <b>@Model.NoPdf</b></li>
-  <li>Active loans: <b>@Model.ActiveLoans</b></li>
-  <li>Overdue loans: <b>@Model.OverdueLoans</b></li>
-</ul>
+  var booksWithPdf = Math.Max(0, Model.TotalBooks - Model.NoPdf);
+  var pdfCoveragePercent = Model.TotalBooks > 0
+    ? (int)Math.Round(booksWithPdf * 100d / Model.TotalBooks)
+    : 0;
 
-<h3>Top borrowed</h3>
-<ol>
-@foreach (var x in Model.TopBorrowed)
-{
-  <li>@x.Title — <b>@x.Count</b></li>
+  var openLoans = Model.ActiveLoans + Model.OverdueLoans;
+  var overdueRatePercent = openLoans > 0
+    ? (int)Math.Round(Model.OverdueLoans * 100d / openLoans)
+    : 0;
+
+  var pdfTone = pdfCoveragePercent >= 80 ? "good" : pdfCoveragePercent >= 50 ? "warn" : "bad";
+  var overdueTone = overdueRatePercent <= 10 ? "good" : overdueRatePercent <= 30 ? "warn" : "bad";
 }
-</ol>
+
+<section class="bo-dash">
+  <div class="card border-0 bo-dash-hero">
+    <div class="card-body">
+      <div>
+        <h2 class="bo-dash-title">Dashboard</h2>
+        <p class="bo-dash-subtitle mb-0">Vue d’ensemble rapide du catalogue et de l’état des emprunts.</p>
+      </div>
+
+      <div class="bo-inline-actions">
+        <a class="btn btn-sm btn-primary" href="/Admin/Books/Create">+ Nouveau livre</a>
+        <a class="btn btn-sm btn-ghost-light" href="/Admin/Import">Importer CSV</a>
+        <a class="btn btn-sm btn-ghost-light" href="/Admin/Export">Exporter rapport</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bo-dash-kpis">
+    <article class="bo-dash-kpi">
+      <div class="bo-dash-kpi-label">Total livres</div>
+      <div class="bo-dash-kpi-value">@Model.TotalBooks</div>
+      <div class="bo-dash-kpi-meta">Catalogue total</div>
+    </article>
+
+    <article class="bo-dash-kpi">
+      <div class="bo-dash-kpi-label">Livres avec PDF</div>
+      <div class="bo-dash-kpi-value">@booksWithPdf</div>
+      <div class="bo-dash-kpi-meta">Couverture PDF: @pdfCoveragePercent%</div>
+    </article>
+
+    <article class="bo-dash-kpi">
+      <div class="bo-dash-kpi-label">Emprunts actifs</div>
+      <div class="bo-dash-kpi-value">@Model.ActiveLoans</div>
+      <div class="bo-dash-kpi-meta">En cours de lecture</div>
+    </article>
+
+    <article class="bo-dash-kpi">
+      <div class="bo-dash-kpi-label">Retards</div>
+      <div class="bo-dash-kpi-value">@Model.OverdueLoans</div>
+      <div class="bo-dash-kpi-meta">Ratio retard: @overdueRatePercent%</div>
+    </article>
+  </div>
+
+  <div class="bo-dash-health-grid">
+    <section class="card border-0">
+      <div class="card-body">
+        <div class="bo-dash-section-title">Santé des PDFs</div>
+        <div class="bo-dash-section-sub">Part des livres qui ont un fichier PDF utilisable.</div>
+        <div class="bo-meter mt-3">
+          <span class="bo-meter-fill @pdfTone" style="width:@($"{pdfCoveragePercent}%")"></span>
+        </div>
+        <div class="bo-meter-meta mt-2">
+          <span>@booksWithPdf / @Model.TotalBooks</span>
+          <span>@pdfCoveragePercent%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card border-0">
+      <div class="card-body">
+        <div class="bo-dash-section-title">Santé des emprunts</div>
+        <div class="bo-dash-section-sub">Part des emprunts ouverts qui sont en retard.</div>
+        <div class="bo-meter mt-3">
+          <span class="bo-meter-fill @overdueTone" style="width:@($"{overdueRatePercent}%")"></span>
+        </div>
+        <div class="bo-meter-meta mt-2">
+          <span>@Model.OverdueLoans / @openLoans</span>
+          <span>@overdueRatePercent%</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="bo-dash-panels">
+    <section class="card border-0">
+      <div class="card-body">
+        <h5 class="mb-3">Top emprunts</h5>
+
+        @if (Model.TopBorrowed.Count == 0)
+        {
+          <div class="bo-empty">Aucune donnée d’emprunt pour le moment.</div>
+        }
+        else
+        {
+          <ol class="bo-top-list">
+          @for (var i = 0; i < Model.TopBorrowed.Count; i++)
+          {
+            var x = Model.TopBorrowed[i];
+            <li class="bo-top-item">
+              <span class="bo-top-rank">@(i + 1)</span>
+              <span class="bo-top-title">@x.Title</span>
+              <span class="bo-top-count">@x.Count</span>
+            </li>
+          }
+          </ol>
+        }
+      </div>
+    </section>
+
+    <section class="card border-0">
+      <div class="card-body">
+        <h5 class="mb-3">Accès rapide</h5>
+        <div class="d-grid gap-2">
+          <a class="bo-quick-link" href="/Admin/Books">
+            <div class="bo-quick-title">Livres</div>
+            <div class="bo-quick-sub">Gérer métadonnées, PDFs et actions CRUD.</div>
+          </a>
+
+          <a class="bo-quick-link" href="/Admin/Licenses">
+            <div class="bo-quick-title">Licences</div>
+            <div class="bo-quick-sub">Régler le nombre de sièges simultanés.</div>
+          </a>
+
+          <a class="bo-quick-link" href="/Admin/Loans">
+            <div class="bo-quick-title">Emprunts</div>
+            <div class="bo-quick-sub">Suivre actifs, retards et retours.</div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

@@ -19,89 +19,89 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = Biblio.BackOffice
 build_property.RootNamespace = Biblio.BackOffice
-build_property.ProjectDir = /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/
+build_property.ProjectDir = /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice
+build_property.MSBuildProjectDirectory = /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Create.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Delete.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Details.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Edit.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ExportPdf.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ExportPdf.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvRXhwb3J0UGRmLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ImportCsv.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/ImportCsv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvSW1wb3J0Q3N2LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/UploadPdf.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Books/UploadPdf.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQm9va3MvVXBsb2FkUGRmLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Dashboard/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Dashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRGFzaGJvYXJkL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Export/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Export/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRXhwb3J0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Import/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Import/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSW1wb3J0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Licenses/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Licenses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTGljZW5zZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Admin/Loans/Index.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Admin/Loans/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vTG9hbnMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Login.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Logout.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9nb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/_ViewImports.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/_ViewStart.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Pages/Shared/_Layout.cshtml]
+[/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ha79y0bhrh

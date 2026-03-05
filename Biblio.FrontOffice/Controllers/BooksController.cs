@@ -14,6 +14,10 @@ public class BooksController : Controller
     {
         var (items, total) = await _repo.GetBooksAsync(page, pageSize, q, onlyAvailable);
 
+        var activeLoanBookIds = new HashSet<int>();
+        if (!string.IsNullOrWhiteSpace(Email))
+            activeLoanBookIds = await _repo.GetActiveLoanBookIdsAsync(Email!);
+
         ViewBag.Page = page;
         ViewBag.PageSize = pageSize;
         ViewBag.Total = total;
@@ -21,6 +25,7 @@ public class BooksController : Controller
         ViewBag.OnlyAvailable = onlyAvailable;
         ViewBag.Pages = (int)Math.Ceiling(total / (double)pageSize);
         ViewBag.Email = Email;
+        ViewBag.ActiveLoanBookIds = activeLoanBookIds;
 
         return View(items);
     }
@@ -65,7 +70,8 @@ public class BooksController : Controller
     {
         if (string.IsNullOrWhiteSpace(Email)) return RedirectToAction("Login", "Account");
 
-        if (!await _repo.HasActiveLoanAsync(id, Email!)) return Forbid();
+        if (!await _repo.HasActiveLoanAsync(id, Email!))
+            return StatusCode(403, "No active loan for this book.");
 
         var path = await _repo.GetPdfPathAsync(id);
         if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path)) return NotFound("PDF not found");

@@ -1,16 +1,53 @@
 @page
 @model Biblio.BackOffice.Pages.Admin.Books.CreateModel
 @{
-  ViewData["Title"] = "Create";
+  ViewData["Title"] = "Create Book";
 }
-<h2>Create Book</h2>
 
-<form method="post">
-  <div>Title <input name="Book.Title" /></div>
-  <div>Author <input name="Book.Author" /></div>
-  <div>Category <input name="Book.Category" /></div>
-  <div>Year <input name="Book.Year" /></div>
-  <div>Summary <input name="Book.Summary" /></div>
-  <button type="submit">Create</button>
-  <a href="/Admin/Books">Back</a>
-</form>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Create book</h2>
+    <div class="small text-muted">Add a new title to the catalogue.</div>
+  </div>
+</div>
+
+<div class="card border-0">
+  <div class="card-body">
+    @if (!ViewData.ModelState.IsValid)
+    {
+      <div asp-validation-summary="All" class="alert alert-danger"></div>
+    }
+
+    <form method="post" class="row g-3">
+      <div class="col-md-6">
+        <label asp-for="Book.Title" class="form-label">Title</label>
+        <input asp-for="Book.Title" class="form-control" required />
+      </div>
+
+      <div class="col-md-6">
+        <label asp-for="Book.Author" class="form-label">Author</label>
+        <input asp-for="Book.Author" class="form-control" required />
+      </div>
+
+      <div class="col-md-6">
+        <label asp-for="Book.Category" class="form-label">Category</label>
+        <input asp-for="Book.Category" class="form-control" />
+      </div>
+
+      <div class="col-md-3">
+        <label asp-for="Book.Year" class="form-label">Year</label>
+        <input asp-for="Book.Year" class="form-control" type="number" />
+      </div>
+
+      <div class="col-12">
+        <label asp-for="Book.Summary" class="form-label">Summary</label>
+        <textarea asp-for="Book.Summary" class="form-control" rows="4"></textarea>
+      </div>
+
+      <div class="col-12 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <a class="btn btn-ghost-light" href="/Admin/Books">Back</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj": {}
+    "/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj": {}
   },
   "projects": {
-    "/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj": {
+    "/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj",
+        "projectUniqueName": "/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj",
         "projectName": "Biblio.BackOffice",
-        "projectPath": "/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj",
-        "packagesPath": "/home/dm/.nuget/packages/",
-        "outputPath": "/home/dm/Documents/MBDS/DotNet/BiblioFlow/Biblio.BackOffice/obj/",
+        "projectPath": "/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/Biblio.BackOffice.csproj",
+        "packagesPath": "/Users/dm/.nuget/packages/",
+        "outputPath": "/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/dm/.nuget/NuGet/NuGet.Config"
+          "/Users/dm/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -92,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/dm/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

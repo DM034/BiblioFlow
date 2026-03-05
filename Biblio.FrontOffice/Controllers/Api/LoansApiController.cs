@@ -37,7 +37,7 @@ public class LoansApiController : ControllerBase
         if (string.IsNullOrWhiteSpace(UserEmail)) return BadRequest("Missing X-User-Email");
 
         var ok = await _repo.HasActiveLoanAsync(bookId, UserEmail);
-        if (!ok) return Forbid();
+        if (!ok) return StatusCode(403, "No active loan for this book.");
 
         var path = await _repo.GetPdfPathAsync(bookId);
         if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))

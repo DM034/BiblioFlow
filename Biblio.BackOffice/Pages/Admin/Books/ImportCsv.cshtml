@@ -1,15 +1,33 @@
 @page
 @model Biblio.BackOffice.Pages.Admin.Books.ImportCsvModel
-
-<h2>Import Books (CSV)</h2>
-<p>Columns: Title,Author,Category,Year,Summary,ConcurrentSeats</p>
-
-<form method="post" enctype="multipart/form-data">
-  <input type="file" name="CsvFile" accept=".csv,text/csv" required />
-  <button type="submit">Import</button>
-</form>
-
-@if (!string.IsNullOrWhiteSpace(Model.Message))
-{
-  <pre>@Model.Message</pre>
+@{
+  ViewData["Title"] = "Import Books CSV";
 }
+
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Import Books (CSV)</h2>
+    <div class="small text-muted">Columns: Title, Author, Category, Year, Summary, ConcurrentSeats.</div>
+  </div>
+</div>
+
+<div class="card border-0">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+      <div class="col-md-8 col-lg-6">
+        <label for="CsvFile" class="form-label">CSV file</label>
+        <input class="form-control" type="file" name="CsvFile" id="CsvFile" accept=".csv,text/csv" required />
+      </div>
+
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Import</button>
+        <a class="btn btn-ghost-light" href="/Admin/Books">Back</a>
+      </div>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+      <pre class="bo-report">@Model.Message</pre>
+    }
+  </div>
+</div>

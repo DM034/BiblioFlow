@@ -192,6 +192,32 @@ ORDER BY l.ReturnedAt ASC, l.DueAt ASC;";
         return items;
     }
 
+    public async Task<HashSet<int>> GetActiveLoanBookIdsAsync(string userEmail)
+    {
+        var ids = new HashSet<int>();
+
+        await using var cn = new SqlConnection(_cs);
+        await cn.OpenAsync();
+
+        var cmd = new SqlCommand(@"
+SELECT DISTINCT BookId
+FROM Loans
+WHERE UserEmail=@u
+  AND ReturnedAt IS NULL
+  AND GETUTCDATE() <= DueAt;", cn);
+
+        cmd.Parameters.AddWithValue("@u", userEmail);
+
+        await using var r = await cmd.ExecuteReaderAsync();
+        while (await r.ReadAsync())
+        {
+            if (!r.IsDBNull(0))
+                ids.Add(r.GetInt32(0));
+        }
+
+        return ids;
+    }
+
     public async Task ReturnAsync(int loanId, string userEmail)
     {
         await using var cn = new SqlConnection(_cs);

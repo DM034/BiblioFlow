@@ -3,21 +3,38 @@
 @{
     ViewData["Title"] = "Upload PDF";
 }
-<h2>Upload PDF</h2>
 
-<p><b>@Model.Book?.Title</b> — @Model.Book?.Author</p>
-
-<form method="post" enctype="multipart/form-data">
-  <div style="margin:12px 0;">
-    <input type="file" name="Pdf" accept="application/pdf" />
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Upload PDF</h2>
+    <div class="small text-muted"><strong>@Model.Book?.Title</strong> — @Model.Book?.Author</div>
   </div>
-  <button type="submit">Upload</button>
-  <a href="/Admin/Books">Back</a>
-</form>
+</div>
 
-@if (!string.IsNullOrWhiteSpace(Model.CurrentPath))
-{
-  <p style="margin-top:10px;">
-    Current PDF: <code>@Model.CurrentPath</code>
-  </p>
-}
+<div class="card border-0">
+  <div class="card-body">
+    @if (!ViewData.ModelState.IsValid)
+    {
+      <div asp-validation-summary="All" class="alert alert-danger"></div>
+    }
+
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+      <div class="col-12">
+        <label for="Pdf" class="form-label">PDF file</label>
+        <input class="form-control" type="file" name="Pdf" id="Pdf" accept="application/pdf" required />
+      </div>
+
+      <div class="col-12 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Upload</button>
+        <a class="btn btn-ghost-light" href="/Admin/Books">Back</a>
+      </div>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.CurrentPath))
+    {
+      <div class="mt-3 small text-muted">
+        Current PDF: <code>@Model.CurrentPath</code>
+      </div>
+    }
+  </div>
+</div>

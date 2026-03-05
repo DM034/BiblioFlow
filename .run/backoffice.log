@@ -1,0 +1,169 @@
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5161
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (30ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Title] AS [BookTitle], [l].[UserEmail], [l].[StartAt], [l].[DueAt], [l].[ReturnedAt]
+      FROM [Loans] AS [l]
+      INNER JOIN [Books] AS [b] ON [l].[BookId] = [b].[Id]
+      ORDER BY [l].[StartAt] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Author], [b].[Category], [b].[PdfPath], [b].[Summary], [b].[Title], [b].[Year]
+      FROM [Books] AS [b]
+      ORDER BY [b].[Title]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId

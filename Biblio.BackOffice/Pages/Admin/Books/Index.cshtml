@@ -3,27 +3,70 @@
 @{
   ViewData["Title"] = "Books";
 }
-<h2>Books</h2>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Books</h2>
+    <div class="small text-muted">Manage catalogue metadata and PDF availability.</div>
+  </div>
 
-<p><a href="/Admin/Books/Create">Create</a></p>
+  <div class="bo-inline-actions">
+    <a class="btn btn-primary btn-sm" href="/Admin/Books/Create">Create book</a>
+    <a class="btn btn-ghost-light btn-sm" href="/Admin/Books/ImportCsv">Import CSV</a>
+    <a class="btn btn-ghost-light btn-sm" href="/Admin/Books/ExportPdf">Export PDF</a>
+  </div>
+</div>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <tr>
-    <th>Id</th><th>Title</th><th>Author</th><th>Category</th><th>Year</th><th>PDF</th><th>Actions</th>
-  </tr>
-@foreach (var b in Model.Items)
-{
-  <tr>
-    <td>@b.Id</td>
-    <td><b>@b.Title</b></td>
-    <td>@b.Author</td>
-    <td>@b.Category</td>
-    <td>@b.Year</td>
-    <td>@(string.IsNullOrWhiteSpace(b.PdfPath) ? "—" : "OK")</td>
-    <td style="white-space:nowrap;">
-      <a href="/Admin/Books/Edit/@b.Id">Edit</a> |
-      <a href="/Admin/Books/UploadPdf/@b.Id">Upload PDF</a>
-    </td>
-  </tr>
-}
-</table>
+<div class="card border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Category</th>
+          <th>Year</th>
+          <th>PDF</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      @if (Model.Items.Count == 0)
+      {
+        <tr>
+          <td colspan="7">
+            <div class="bo-empty my-2">No books in catalogue yet.</div>
+          </td>
+        </tr>
+      }
+
+      @foreach (var b in Model.Items)
+      {
+        <tr>
+          <td>@b.Id</td>
+          <td class="fw-semibold">@b.Title</td>
+          <td>@b.Author</td>
+          <td>@(string.IsNullOrWhiteSpace(b.Category) ? "—" : b.Category)</td>
+          <td>@(b.Year?.ToString() ?? "—")</td>
+          <td>
+            @if (string.IsNullOrWhiteSpace(b.PdfPath))
+            {
+              <span class="badge text-bg-secondary">No PDF</span>
+            }
+            else
+            {
+              <span class="badge text-bg-success">Uploaded</span>
+            }
+          </td>
+          <td class="text-end text-nowrap">
+            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Details/@b.Id">Details</a>
+            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Edit/@b.Id">Edit</a>
+            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/UploadPdf/@b.Id">Upload PDF</a>
+            <a class="btn btn-sm btn-outline-danger" href="/Admin/Books/Delete/@b.Id">Delete</a>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>

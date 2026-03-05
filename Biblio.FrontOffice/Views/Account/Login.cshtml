@@ -3,9 +3,12 @@
   var msg = TempData["Msg"] as string;
 }
 
-<div class="fo-card mt-3" style="max-width:520px;margin:0 auto;">
+<div class="fo-card fo-auth-card">
   <div class="fo-card-header">
-    <div class="fw-semibold">Sign in</div>
+    <div>
+      <div class="fw-semibold">Sign in</div>
+      <div class="small text-white-50">Use your email to access borrowing features.</div>
+    </div>
     <span class="fo-pill">FrontOffice</span>
   </div>
 
@@ -22,7 +25,7 @@
       </div>
 
       <div class="d-grid">
-        <button class="btn btn-primary">Login</button>
+        <button class="btn btn-primary" type="submit">Login</button>
       </div>
 
       <div class="text-white-50 small mt-3">

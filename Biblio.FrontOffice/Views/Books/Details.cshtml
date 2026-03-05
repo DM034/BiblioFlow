@@ -6,12 +6,12 @@
 
 <div class="row g-4">
   <div class="col-lg-8">
-    <div class="card p-4">
+    <div class="fo-card fo-card-body p-4">
       <h2 class="fw-semibold mb-2">@b.Title</h2>
       <div class="d-flex flex-wrap gap-2 mb-3">
-        <span class="badge bg-secondary">@b.Author</span>
-        <span class="badge bg-secondary">@b.Category</span>
-        <span class="badge bg-secondary">@(b.Year?.ToString() ?? "—")</span>
+        <span class="badge text-bg-secondary">@b.Author</span>
+        <span class="badge text-bg-secondary">@b.Category</span>
+        <span class="badge text-bg-secondary">@(b.Year?.ToString() ?? "—")</span>
       </div>
 
       @if (!string.IsNullOrWhiteSpace(b.Summary))
@@ -26,7 +26,7 @@
   </div>
 
   <div class="col-lg-4">
-    <div class="card p-4">
+    <div class="fo-card fo-card-body p-4">
       <h5 class="fw-semibold mb-3">Actions</h5>
 
       <div class="d-grid gap-2">
@@ -34,9 +34,9 @@
           <button class="btn btn-primary" type="submit">Borrow</button>
         </form>
 
-        <a class="btn btn-outline-light" asp-controller="Books" asp-action="Read" asp-route-id="@b.Id">Read</a>
+        <a class="btn btn-ghost" asp-controller="Books" asp-action="Read" asp-route-id="@b.Id">Read</a>
 
-        <a class="btn btn-outline-light" asp-controller="Books" asp-action="Index">Back to Catalogue</a>
+        <a class="btn btn-ghost" asp-controller="Books" asp-action="Index">Back to Catalogue</a>
       </div>
     </div>
   </div>

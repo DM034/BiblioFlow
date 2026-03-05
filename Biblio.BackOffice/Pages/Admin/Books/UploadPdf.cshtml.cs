@@ -1,5 +1,4 @@
 using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -47,16 +46,66 @@ public class UploadPdfModel : PageModel
             return Page();
         }
 
-        var root = _cfg["Storage:PdfRoot"] ?? "/tmp/biblioflow-pdfs";
-        Directory.CreateDirectory(root);
+        string root;
+        try
+        {
+            root = ResolvePdfRoot();
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", $"PDF storage is not accessible: {ex.Message}");
+            Book = book;
+            CurrentPath = book.PdfPath;
+            return Page();
+        }
 
         var target = Path.Combine(root, $"{book.Id}.pdf");
-        await using (var fs = System.IO.File.Create(target))
+        try
+        {
+            await using var fs = System.IO.File.Create(target);
             await Pdf.CopyToAsync(fs);
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", $"Upload failed: {ex.Message}");
+            Book = book;
+            CurrentPath = book.PdfPath;
+            return Page();
+        }
 
         book.PdfPath = target;
         await _db.SaveChangesAsync();
 
         return Redirect("/Admin/Books");
+    }
+
+    private string ResolvePdfRoot()
+    {
+        var configured = _cfg["Storage:PdfRoot"];
+
+        var candidates = new List<string>();
+        if (!string.IsNullOrWhiteSpace(configured))
+            candidates.Add(Environment.ExpandEnvironmentVariables(configured));
+
+        var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        if (!string.IsNullOrWhiteSpace(localAppData))
+            candidates.Add(Path.Combine(localAppData, "BiblioFlow", "pdfs"));
+
+        candidates.Add(Path.Combine(Path.GetTempPath(), "biblioflow-pdfs"));
+
+        foreach (var candidate in candidates)
+        {
+            try
+            {
+                var full = Path.GetFullPath(candidate);
+                Directory.CreateDirectory(full);
+                return full;
+            }
+            catch
+            {
+            }
+        }
+
+        throw new IOException("Unable to create a writable folder for PDF storage.");
     }
 }

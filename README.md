@@ -224,6 +224,16 @@ So the PDF file must exist **on the machine where FrontOffice is running**.
 
 ✅ You must mount a volume and use an in-container path, e.g. `/pdfs/file.pdf`.
 
+### Default PDF storage (portable)
+
+If `Storage:PdfRoot` is not configured (or invalid), BackOffice stores uploaded PDFs in a writable cross-platform default folder:
+
+- Windows: `%LOCALAPPDATA%/BiblioFlow/pdfs`
+- macOS: `~/Library/Application Support/BiblioFlow/pdfs`
+- Linux: `~/.local/share/BiblioFlow/pdfs`
+
+This avoids machine-specific hardcoded paths like `/home/<user>/...`.
+
 ---
 
 ## 9) Clean / Rebuild Commands
@@ -307,6 +317,43 @@ cd ../Biblio.FrontOffice
 dotnet restore
 dotnet run --urls "http://0.0.0.0:5200"
 ```
+
+---
+
+## 13) One-command Dev Script (macOS / Linux)
+
+You can start/stop the full local stack with a single script:
+
+```bash
+cd BiblioFlow
+./scripts/dev.sh up
+```
+
+Useful commands:
+
+```bash
+# Show current status (Docker / SQL / apps)
+./scripts/dev.sh status
+
+# Stop BackOffice + FrontOffice only
+./scripts/dev.sh down
+
+# Stop BackOffice + FrontOffice + SQL container
+./scripts/dev.sh down-all
+
+# Follow app logs
+./scripts/dev.sh logs
+```
+
+Default URLs with this script:
+
+- BackOffice: `http://localhost:5161/Login`
+- FrontOffice: `http://localhost:5193/Books`
+
+Notes:
+
+- `up` restores NuGet packages, applies EF migrations, and starts both apps.
+- If Docker is not running and `colima` is available, the script starts it automatically.
 
 ---
 

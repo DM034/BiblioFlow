@@ -3,16 +3,30 @@
 @{
   ViewData["Title"] = "Import CSV";
 }
-<h2>Import CSV</h2>
 
-<p>Columns (header required): Title;Author;Category;Year;Summary;Seats</p>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Import CSV</h2>
+    <div class="small text-muted">Columns: Title;Author;Category;Year;Summary;Seats (header required).</div>
+  </div>
+</div>
 
-<form method="post" enctype="multipart/form-data">
-  <input type="file" name="Csv" accept=".csv,text/csv" />
-  <button type="submit">Import</button>
-</form>
+<div class="card border-0">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data" class="row g-3">
+      <div class="col-md-8 col-lg-6">
+        <label for="Csv" class="form-label">CSV file</label>
+        <input id="Csv" class="form-control" type="file" name="Csv" accept=".csv,text/csv" required />
+      </div>
 
-@if (!string.IsNullOrWhiteSpace(Model.Report))
-{
-  <pre style="margin-top:12px;padding:12px;border:1px solid #ddd;background:#fafafa;white-space:pre-wrap;">@Model.Report</pre>
-}
+      <div class="col-12">
+        <button class="btn btn-primary" type="submit">Import</button>
+      </div>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Report))
+    {
+      <pre class="bo-report">@Model.Report</pre>
+    }
+  </div>
+</div>

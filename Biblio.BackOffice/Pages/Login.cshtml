@@ -6,7 +6,7 @@
 
 <div class="row justify-content-center">
   <div class="col-12 col-md-6 col-lg-5">
-    <div class="card p-4">
+    <div class="card p-4 login-card">
       <h3 class="mb-2">BackOffice Login</h3>
       <p class="text-muted mb-4">Enter your admin email to access the dashboard.</p>
 
@@ -19,11 +19,20 @@
         @Html.AntiForgeryToken()
 
         <div>
-          <label class="form-label">Email</label>
-          <input class="form-control" name="Email" value="@Model.Email" placeholder="admin@local" />
+          <label class="form-label" for="login-email">Email</label>
+          <input
+            asp-for="Email"
+            id="login-email"
+            type="email"
+            class="form-control"
+            placeholder="admin@local"
+            autocomplete="email"
+            autocapitalize="none"
+            spellcheck="false"
+            required />
         </div>
 
-        <button class="btn btn-dark btn-lg" type="submit">Sign in</button>
+        <button class="btn btn-primary btn-lg" type="submit">Sign in</button>
 
         <div class="small text-muted">
           Tip: if Admin:Emails is configured, only listed emails can login.
@@ -32,3 +41,23 @@
     </div>
   </div>
 </div>
+
+@section Scripts {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const emailInput = document.getElementById("login-email");
+      if (!emailInput) {
+        return;
+      }
+
+      emailInput.readOnly = false;
+      emailInput.disabled = false;
+      emailInput.removeAttribute("readonly");
+      emailInput.removeAttribute("disabled");
+      emailInput.focus();
+
+      const end = emailInput.value?.length ?? 0;
+      emailInput.setSelectionRange(end, end);
+    });
+  </script>
+}

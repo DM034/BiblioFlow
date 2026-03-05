@@ -11,14 +11,18 @@
 
 @if (Model.Count == 0)
 {
-  <div class="alert alert-secondary">No loans yet.</div>
+  <div class="fo-empty">No loans yet.</div>
 }
 else
 {
-  <div class="card border-0 shadow-sm">
+  <div class="fo-card">
+    <div class="fo-card-header">
+      <div class="fw-semibold">Loan history</div>
+      <div class="small text-white-50">Entries: @Model.Count</div>
+    </div>
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
+      <table class="table fo-table table-hover align-middle">
+        <thead>
           <tr>
             <th>Title</th>
             <th>Start</th>
@@ -54,7 +58,7 @@ else
             <td class="text-end">
               @if (!returned)
               {
-                <a class="btn btn-sm btn-outline-dark" href="/Books/Read/@l.BookId">Read</a>
+                <a class="btn btn-sm btn-ghost" href="/Books/Read/@l.BookId">Read</a>
                 <form method="post" action="/Books/ReturnByBook/@l.BookId" class="d-inline">
                   <button class="btn btn-sm btn-warning" type="submit">Return</button>
                 </form>

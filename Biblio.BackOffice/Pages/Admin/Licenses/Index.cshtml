@@ -3,26 +3,48 @@
 @{
   ViewData["Title"] = "Licenses";
 }
-<h2>Licenses</h2>
+<div class="bo-page-header">
+  <div>
+    <h2 class="mb-1">Licenses</h2>
+    <div class="small text-muted">Adjust concurrent seats per book.</div>
+  </div>
+</div>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <tr>
-    <th>Book</th>
-    <th>Seats</th>
-    <th>Action</th>
-  </tr>
-  @foreach (var row in Model.Rows)
-  {
-    <tr>
-      <td>@row.BookId — <b>@row.Title</b></td>
-      <td>
-        <form method="post" style="display:flex;gap:8px;align-items:center;">
-          <input type="hidden" name="BookId" value="@row.BookId" />
-          <input name="Seats" value="@row.Seats" style="width:80px;" />
-          <button type="submit">Save</button>
-        </form>
-      </td>
-      <td></td>
-    </tr>
-  }
-</table>
+<div class="card border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Book</th>
+          <th class="text-end">Seats</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      @if (Model.Rows.Count == 0)
+      {
+        <tr>
+          <td colspan="3">
+            <div class="bo-empty my-2">No books available for license setup.</div>
+          </td>
+        </tr>
+      }
+
+      @foreach (var row in Model.Rows)
+      {
+        <tr>
+          <td><span class="text-muted">#@row.BookId</span> — <strong>@row.Title</strong></td>
+          <td class="text-end">@row.Seats</td>
+          <td class="text-end">
+            <form method="post" class="d-inline-flex align-items-center gap-2">
+              <input type="hidden" name="BookId" value="@row.BookId" />
+              <input class="form-control form-control-sm bo-seats-input" name="Seats" type="number" min="1" value="@row.Seats" />
+              <button class="btn btn-sm btn-primary" type="submit">Save</button>
+            </form>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>

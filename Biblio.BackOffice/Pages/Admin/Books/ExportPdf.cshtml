@@ -4,8 +4,18 @@
     ViewData["Title"] = "Export PDF";
 }
 
-<h2>Export catalogue PDF</h2>
+<div class="bo-page-header">
+    <div>
+        <h2 class="mb-1">Export catalogue PDF</h2>
+        <div class="small text-muted">Generate a downloadable snapshot of all books and license seats.</div>
+    </div>
+</div>
 
-<form method="post">
-    <button type="submit">Download PDF</button>
-</form>
+<div class="card border-0">
+    <div class="card-body">
+        <form method="post" class="d-flex gap-2 align-items-center">
+            <button class="btn btn-primary" type="submit">Download PDF</button>
+            <a class="btn btn-ghost-light" href="/Admin/Books">Back</a>
+        </form>
+    </div>
+</div>
