@@ -167,3 +167,175 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       SELECT TOP(1) [b].[Title]
       FROM [Books] AS [b]
       WHERE [b].[Id] = @t_BookId
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.UnprotectCore(Byte[] protectedData, Boolean allowOperationsOnRevokedKeys, UnprotectStatus& status)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.UnprotectCore(Byte[] protectedData, Boolean allowOperationsOnRevokedKeys, UnprotectStatus& status)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.UnprotectCore(Byte[] protectedData, Boolean allowOperationsOnRevokedKeys, UnprotectStatus& status)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Author], [b].[Category], [b].[PdfPath], [b].[Summary], [b].[Title], [b].[Year]
+      FROM [Books] AS [b]
+      ORDER BY [b].[Title]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Title], CASE
+          WHEN [l].[BookId] IS NULL THEN 1
+          ELSE [l].[ConcurrentSeats]
+      END
+      FROM [Books] AS [b]
+      LEFT JOIN [Licenses] AS [l] ON [b].[Id] = [l].[BookId]
+      ORDER BY [b].[Title]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Title] AS [BookTitle], [l].[UserEmail], [l].[StartAt], [l].[DueAt], [l].[ReturnedAt]
+      FROM [Loans] AS [l]
+      INNER JOIN [Books] AS [b] ON [l].[BookId] = [b].[Id]
+      ORDER BY [l].[StartAt] DESC
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.UnprotectCore(Byte[] protectedData, Boolean allowOperationsOnRevokedKeys, UnprotectStatus& status)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.UnprotectCore(Byte[] protectedData, Boolean allowOperationsOnRevokedKeys, UnprotectStatus& status)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+warn: Microsoft.AspNetCore.Session.SessionMiddleware[7]
+      Error unprotecting the session cookie.
+      System.Security.Cryptography.CryptographicException: The payload was invalid. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.CalculateAndValidateMac(Byte[] payloadArray, Int32 ivOffset, Int32 macOffset, Int32 eofOffset, ReadOnlySpan`1 validationSubkey, Byte[] validationSubkeyArray)
+         at Microsoft.AspNetCore.DataProtection.Managed.ManagedAuthenticatedEncryptor.Decrypt(ArraySegment`1 protectedPayload, ArraySegment`1 additionalAuthenticatedData)
+         at Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector.Unprotect(Byte[] protectedData)
+         at Microsoft.AspNetCore.Session.CookieProtection.Unprotect(IDataProtector protector, String protectedText, ILogger logger)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Id], [b].[Title], CASE
+          WHEN [l].[BookId] IS NULL THEN 1
+          ELSE [l].[ConcurrentSeats]
+      END
+      FROM [Books] AS [b]
+      LEFT JOIN [Licenses] AS [l] ON [b].[Id] = [l].[BookId]
+      ORDER BY [b].[Title]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[Title] AS [BookTitle], [l].[UserEmail], [l].[StartAt], [l].[DueAt], [l].[ReturnedAt]
+      FROM [Loans] AS [l]
+      INNER JOIN [Books] AS [b] ON [l].[BookId] = [b].[Id]
+      ORDER BY [l].[StartAt] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Books] AS [b]
+      WHERE [b].[PdfPath] IS NULL OR [b].[PdfPath] = N''
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() <= [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Loans] AS [l]
+      WHERE [l].[ReturnedAt] IS NULL AND GETUTCDATE() > [l].[DueAt]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@p) [l].[BookId], COUNT(*) AS [Cnt]
+      FROM [Loans] AS [l]
+      GROUP BY [l].[BookId]
+      ORDER BY COUNT(*) DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@t_BookId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [b].[Title]
+      FROM [Books] AS [b]
+      WHERE [b].[Id] = @t_BookId
