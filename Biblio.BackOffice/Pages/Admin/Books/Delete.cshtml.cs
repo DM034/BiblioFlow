@@ -1,62 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Models;
 
-namespace Biblio.BackOffice.Pages.Admin.Books
+namespace Biblio.BackOffice.Pages.Admin.Books;
+
+public class DeleteModel : PageModel
 {
-    public class DeleteModel : PageModel
+    private readonly LibraryDbContext _context;
+    private readonly IAdminAuditService _audit;
+
+    public DeleteModel(LibraryDbContext context, IAdminAuditService audit)
     {
-        private readonly Biblio.BackOffice.Data.LibraryDbContext _context;
+        _context = context;
+        _audit = audit;
+    }
 
-        public DeleteModel(Biblio.BackOffice.Data.LibraryDbContext context)
-        {
-            _context = context;
-        }
+    [BindProperty]
+    public Book Book { get; set; } = default!;
 
-        [BindProperty]
-        public Biblio.BackOffice.Data.Book Book { get; set; } = default!;
-
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (book is not null)
-            {
-                Book = book;
-
-                return Page();
-            }
-
+    public async Task<IActionResult> OnGetAsync(int? id)
+    {
+        if (id == null)
             return NotFound();
-        }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        var book = await _context.Books.FirstOrDefaultAsync(m => m.Id == id.Value);
+        if (book == null)
+            return NotFound();
+
+        Book = book;
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int? id)
+    {
+        if (id == null)
+            return NotFound();
+
+        var book = await _context.Books.FindAsync(id.Value);
+        if (book != null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                Book = book;
-                _context.Books.Remove(Book);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            var details = $"Title={book.Title}; Author={book.Author}";
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+            await _audit.LogAsync("DELETE", "Book", id.Value.ToString(), details);
         }
+
+        return RedirectToPage("./Index");
     }
 }

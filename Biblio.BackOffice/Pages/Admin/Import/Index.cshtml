@@ -13,16 +13,75 @@
 
 <div class="card border-0">
   <div class="card-body">
-    <form method="post" enctype="multipart/form-data" class="row g-3">
+    <form method="post" enctype="multipart/form-data" asp-page-handler="Preview" class="row g-3">
       <div class="col-md-8 col-lg-6">
         <label for="Csv" class="form-label">CSV file</label>
         <input id="Csv" class="form-control" type="file" name="Csv" accept=".csv,text/csv" required />
       </div>
 
       <div class="col-12">
-        <button class="btn btn-primary" type="submit">Import</button>
+        <button class="btn btn-primary" type="submit">Preview import</button>
       </div>
     </form>
+
+    @if (Model.PreviewRows.Count > 0)
+    {
+      <div class="mt-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+          <h5 class="mb-0">Preview</h5>
+          <div class="small text-muted">Valid: <strong>@Model.PreviewValidCount</strong> · Invalid: <strong>@Model.PreviewInvalidCount</strong></div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Seats</th>
+                <th>Status</th>
+                <th>Error</th>
+              </tr>
+            </thead>
+            <tbody>
+            @foreach (var row in Model.PreviewRows)
+            {
+              <tr>
+                <td>@row.LineNo</td>
+                <td>@row.Title</td>
+                <td>@row.Author</td>
+                <td>@row.Seats</td>
+                <td>
+                  @if (!row.IsValid)
+                  {
+                    <span class="badge text-bg-danger">Invalid</span>
+                  }
+                  else if (row.Exists)
+                  {
+                    <span class="badge text-bg-warning">Update</span>
+                  }
+                  else
+                  {
+                    <span class="badge text-bg-success">Create</span>
+                  }
+                </td>
+                <td class="small text-muted">@row.Error</td>
+              </tr>
+            }
+            </tbody>
+          </table>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PreviewPayload))
+        {
+          <form method="post" asp-page-handler="Import" class="mt-3 d-flex gap-2">
+            <input type="hidden" name="PreviewPayload" value="@Model.PreviewPayload" />
+            <button class="btn btn-success" type="submit">Confirm import</button>
+          </form>
+        }
+      </div>
+    }
 
     @if (!string.IsNullOrWhiteSpace(Model.Report))
     {

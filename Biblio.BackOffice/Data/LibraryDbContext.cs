@@ -9,6 +9,7 @@ public class LibraryDbContext : DbContext
     public DbSet<Book> Books => Set<Book>();
     public DbSet<License> Licenses => Set<License>();
     public DbSet<Loan> Loans => Set<Loan>();
+    public DbSet<AdminAuditEvent> AdminAuditEvents => Set<AdminAuditEvent>();
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
@@ -16,6 +17,7 @@ public class LibraryDbContext : DbContext
         {
             e.HasIndex(x => x.Title);
             e.HasIndex(x => x.Author);
+            e.HasIndex(x => new { x.Title, x.Author });
         });
 
         mb.Entity<License>(e =>
@@ -35,6 +37,22 @@ public class LibraryDbContext : DbContext
              .OnDelete(DeleteBehavior.Cascade);
 
             e.HasIndex(x => new { x.BookId, x.UserEmail, x.ReturnedAt, x.DueAt });
+            e.HasIndex(x => new { x.UserEmail, x.ReturnedAt, x.DueAt });
+            e.HasIndex(x => x.DueAt);
+        });
+
+        mb.Entity<AdminAuditEvent>(e =>
+        {
+            e.Property(x => x.AdminEmail).HasMaxLength(256).IsRequired();
+            e.Property(x => x.Action).HasMaxLength(100).IsRequired();
+            e.Property(x => x.EntityType).HasMaxLength(80).IsRequired();
+            e.Property(x => x.EntityId).HasMaxLength(100);
+            e.Property(x => x.Details).HasMaxLength(4000);
+            e.Property(x => x.IpAddress).HasMaxLength(64);
+
+            e.HasIndex(x => x.CreatedAt);
+            e.HasIndex(x => x.AdminEmail);
+            e.HasIndex(x => new { x.EntityType, x.EntityId, x.CreatedAt });
         });
     }
 }

@@ -79,4 +79,18 @@ public class BooksController : Controller
         var stream = System.IO.File.OpenRead(path);
         return File(stream, "application/pdf", enableRangeProcessing: true);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Cover(int id)
+    {
+        var path = await _repo.GetPdfPathAsync(id);
+        if (string.IsNullOrWhiteSpace(path) || !System.IO.File.Exists(path))
+            return NotFound();
+
+        if (!path.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+            return NotFound();
+
+        var stream = System.IO.File.OpenRead(path);
+        return File(stream, "application/pdf", enableRangeProcessing: true);
+    }
 }

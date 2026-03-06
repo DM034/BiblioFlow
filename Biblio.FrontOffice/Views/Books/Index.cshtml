@@ -49,59 +49,78 @@
     <div class="fw-semibold">Books</div>
     <div class="small text-white-50">Total visible: @Model.Count</div>
   </div>
-  <div class="table-responsive">
-    <table class="table fo-table table-hover align-middle">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Category</th>
-          <th>Seats</th>
-          <th>Status</th>
-          <th class="text-end">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      @if (Model.Count == 0)
-      {
-        <tr>
-          <td colspan="6">
-            <div class="fo-empty my-2">No books found for this filter.</div>
-          </td>
-        </tr>
-      }
+  <div class="fo-card-body">
+    @if (Model.Count == 0)
+    {
+      <div class="fo-empty">No books found for this filter.</div>
+    }
+    else
+    {
+      <div class="fo-books-grid">
+        @foreach (var b in Model)
+        {
+          var emblem = !string.IsNullOrWhiteSpace(b.Title) ? char.ToUpperInvariant(b.Title[0]).ToString() : "B";
+          var coverVariant = b.Id % 6;
+          <article class="fo-book-card">
+            <div class="fo-book-card-inner">
+              <div class="fo-book-cover fo-cover-v@coverVariant @(b.HasPdf ? "has-pdf" : "")">
+                @if (b.HasPdf)
+                {
+                  <iframe class="fo-book-cover-frame"
+                          loading="lazy"
+                          title="Cover preview for @b.Title"
+                          src="/Books/Cover/@b.Id#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH"></iframe>
 
-      @foreach (var b in Model)
-      {
-        <tr>
-          <td class="fw-semibold">@b.Title</td>
-          <td>@b.Author</td>
-          <td><span class="badge text-bg-secondary">@b.Category</span></td>
-          <td>@b.ActiveLoans / @b.Seats</td>
-          <td>
-            @if (b.Available)
-            {
-              <span class="badge text-bg-success">Available</span>
-            }
-            else
-            {
-              <span class="badge text-bg-danger">Full</span>
-            }
-          </td>
-          <td class="text-end">
-            <form method="post" action="/Books/Borrow/@b.Id" class="d-inline">
-              <button class="btn btn-sm btn-primary" type="submit" @(b.Available ? "" : "disabled")>Borrow</button>
-            </form>
+                  <div class="fo-book-cover-meta-overlay">
+                    <span class="badge text-bg-dark">@(string.IsNullOrWhiteSpace(b.Category) ? "General" : b.Category)</span>
+                    <span class="badge text-bg-light fo-page-badge">Page 1</span>
+                  </div>
+                }
+                else
+                {
+                  <div class="fo-book-cover-head">
+                    <span class="fo-book-emblem">@emblem</span>
+                    <span class="badge text-bg-dark">@(string.IsNullOrWhiteSpace(b.Category) ? "General" : b.Category)</span>
+                  </div>
 
-            @if (!string.IsNullOrWhiteSpace(email) && activeLoanBookIds.Contains(b.Id))
-            {
-              <a class="btn btn-sm btn-ghost" href="/Books/Read/@b.Id">Read</a>
-            }
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
+                  <div>
+                    <h3 class="fo-book-cover-title" title="@b.Title">@b.Title</h3>
+                    <p class="fo-book-cover-author" title="@b.Author">@b.Author</p>
+                  </div>
+                }
+              </div>
+
+              <div class="fo-book-meta">
+                <span class="small text-muted">Seats</span>
+                <span class="fo-book-seats">@b.ActiveLoans / @b.Seats</span>
+              </div>
+
+              <div class="fo-book-status-line">
+                @if (b.Available)
+                {
+                  <span class="badge text-bg-success">Available</span>
+                }
+                else
+                {
+                  <span class="badge text-bg-danger">Full</span>
+                }
+              </div>
+
+              <div class="fo-book-actions">
+                <form method="post" action="/Books/Borrow/@b.Id">
+                  <button class="btn btn-sm btn-primary" type="submit" @(b.Available ? "" : "disabled")>Borrow</button>
+                </form>
+
+                @if (!string.IsNullOrWhiteSpace(email) && activeLoanBookIds.Contains(b.Id))
+                {
+                  <a class="btn btn-sm btn-ghost" href="/Books/Read/@b.Id">Read</a>
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
   </div>
 </div>
 

@@ -871,4 +871,4 @@
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/Debug/net10.0/Biblio.BackOffice.genruntimeconfig.cache
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/Debug/net10.0/ref/Biblio.BackOffice.dll
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/Debug/net10.0/compressed/64witdknsl-{0}-izcm718lh3-izcm718lh3.gz
-/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/Debug/net10.0/compressed/txaym5cjeb-{0}-3vdxctemkm-3vdxctemkm.gz
+/Users/dm/Documents/GitHub/BiblioFlow/Biblio.BackOffice/obj/Debug/net10.0/compressed/txaym5cjeb-{0}-elnsvxe4op-elnsvxe4op.gz

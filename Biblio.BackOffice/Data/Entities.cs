@@ -49,3 +49,31 @@ public class Loan
     public DateTime DueAt { get; set; }
     public DateTime? ReturnedAt { get; set; }
 }
+
+public class AdminAuditEvent
+{
+    public long Id { get; set; }
+
+    [Required]
+    [MaxLength(256)]
+    public string AdminEmail { get; set; } = "";
+
+    [Required]
+    [MaxLength(100)]
+    public string Action { get; set; } = "";
+
+    [Required]
+    [MaxLength(80)]
+    public string EntityType { get; set; } = "";
+
+    [MaxLength(100)]
+    public string? EntityId { get; set; }
+
+    [MaxLength(4000)]
+    public string? Details { get; set; }
+
+    [MaxLength(64)]
+    public string? IpAddress { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+}

@@ -18,7 +18,7 @@ public class IndexModel : PageModel
             .OrderByDescending(l => l.StartAt)
             .Select(l => new Row
             {
-                BookTitle = l.Book.Title,
+                BookTitle = l.Book != null ? l.Book.Title : "",
                 UserEmail = l.UserEmail,
                 StartAt = l.StartAt,
                 DueAt = l.DueAt,

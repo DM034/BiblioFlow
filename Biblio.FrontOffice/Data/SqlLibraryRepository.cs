@@ -49,7 +49,8 @@ SELECT
   b.Year,
   b.Summary,
   ISNULL(lic.Seats, 1) AS Seats,
-  act.ActiveLoans AS ActiveLoans
+    act.ActiveLoans AS ActiveLoans,
+    CASE WHEN b.PdfPath IS NULL OR b.PdfPath = '' THEN CAST(0 AS bit) ELSE CAST(1 AS bit) END AS HasPdf
 FROM Books b
 OUTER APPLY (
    SELECT TOP 1 ConcurrentSeats AS Seats
@@ -85,9 +86,10 @@ OFFSET @off ROWS FETCH NEXT @ps ROWS ONLY;
 
             var seats = r.IsDBNull(6) ? 1 : r.GetInt32(6);
             var active = r.IsDBNull(7) ? 0 : r.GetInt32(7);
+            var hasPdf = !r.IsDBNull(8) && r.GetBoolean(8);
             var available = active < seats;
 
-            items.Add(new BookRow(id, title, author, category, year, summary, seats, active, available));
+            items.Add(new BookRow(id, title, author, category, year, summary, seats, active, available, hasPdf));
         }
 
         return (items, total);
@@ -235,7 +237,7 @@ WHERE Id=@id AND UserEmail=@u AND ReturnedAt IS NULL;", cn);
 
 public record BookRow(
     int Id, string Title, string Author, string Category, int? Year, string Summary,
-    int Seats, int ActiveLoans, bool Available
+    int Seats, int ActiveLoans, bool Available, bool HasPdf
 );
 public record UserLoanRow(int LoanId, int BookId, string Title, DateTime StartAt, DateTime DueAt, DateTime? ReturnedAt);
 

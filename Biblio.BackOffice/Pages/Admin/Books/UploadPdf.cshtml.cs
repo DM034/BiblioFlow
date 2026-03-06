@@ -1,4 +1,5 @@
 using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ public class UploadPdfModel : PageModel
 {
     private readonly LibraryDbContext _db;
     private readonly IConfiguration _cfg;
+    private readonly IAdminAuditService _audit;
 
-    public UploadPdfModel(LibraryDbContext db, IConfiguration cfg)
+    public UploadPdfModel(LibraryDbContext db, IConfiguration cfg, IAdminAuditService audit)
     {
         _db = db;
         _cfg = cfg;
+        _audit = audit;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -75,6 +78,12 @@ public class UploadPdfModel : PageModel
 
         book.PdfPath = target;
         await _db.SaveChangesAsync();
+
+        await _audit.LogAsync(
+            action: "UPLOAD_PDF",
+            entityType: "Book",
+            entityId: book.Id.ToString(),
+            details: $"File={Path.GetFileName(target)}; Bytes={Pdf.Length}");
 
         return Redirect("/Admin/Books");
     }

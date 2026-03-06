@@ -11,62 +11,80 @@
 
   <div class="bo-inline-actions">
     <a class="btn btn-primary btn-sm" href="/Admin/Books/Create">Create book</a>
-    <a class="btn btn-ghost-light btn-sm" href="/Admin/Books/ImportCsv">Import CSV</a>
+    <a class="btn btn-ghost-light btn-sm" href="/Admin/Import">Import CSV</a>
     <a class="btn btn-ghost-light btn-sm" href="/Admin/Books/ExportPdf">Export PDF</a>
   </div>
 </div>
 
 <div class="card border-0">
-  <div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Category</th>
-          <th>Year</th>
-          <th>PDF</th>
-          <th class="text-end">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      @if (Model.Items.Count == 0)
-      {
-        <tr>
-          <td colspan="7">
-            <div class="bo-empty my-2">No books in catalogue yet.</div>
-          </td>
-        </tr>
-      }
+  <div class="card-body">
+    @if (Model.Items.Count == 0)
+    {
+      <div class="bo-empty">No books in catalogue yet.</div>
+    }
+    else
+    {
+      <div class="bo-books-grid">
+        @foreach (var b in Model.Items)
+        {
+          var emblem = !string.IsNullOrWhiteSpace(b.Title) ? char.ToUpperInvariant(b.Title[0]).ToString() : "B";
+          var coverVariant = b.Id % 6;
+          var hasPdf = !string.IsNullOrWhiteSpace(b.PdfPath);
+          <article class="bo-book-card">
+            <div class="bo-book-card-inner">
+              <div class="bo-book-cover bo-cover-v@coverVariant @(hasPdf ? "has-pdf" : "")">
+                @if (hasPdf)
+                {
+                  <iframe class="bo-book-cover-frame"
+                          loading="lazy"
+                          title="Cover preview for @b.Title"
+                          src="/Admin/Books?handler=Cover&id=@b.Id#page=1&toolbar=0&navpanes=0&scrollbar=0&view=FitH"></iframe>
 
-      @foreach (var b in Model.Items)
-      {
-        <tr>
-          <td>@b.Id</td>
-          <td class="fw-semibold">@b.Title</td>
-          <td>@b.Author</td>
-          <td>@(string.IsNullOrWhiteSpace(b.Category) ? "—" : b.Category)</td>
-          <td>@(b.Year?.ToString() ?? "—")</td>
-          <td>
-            @if (string.IsNullOrWhiteSpace(b.PdfPath))
-            {
-              <span class="badge text-bg-secondary">No PDF</span>
-            }
-            else
-            {
-              <span class="badge text-bg-success">Uploaded</span>
-            }
-          </td>
-          <td class="text-end text-nowrap">
-            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Details/@b.Id">Details</a>
-            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Edit/@b.Id">Edit</a>
-            <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/UploadPdf/@b.Id">Upload PDF</a>
-            <a class="btn btn-sm btn-outline-danger" href="/Admin/Books/Delete/@b.Id">Delete</a>
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
+                  <div class="bo-book-cover-meta-overlay">
+                    <span class="badge text-bg-dark">@(string.IsNullOrWhiteSpace(b.Category) ? "General" : b.Category)</span>
+                    <span class="badge text-bg-light bo-page-badge">Page 1</span>
+                  </div>
+                }
+                else
+                {
+                  <div class="bo-book-cover-head">
+                    <span class="bo-book-emblem">@emblem</span>
+                    <span class="badge text-bg-dark">@(string.IsNullOrWhiteSpace(b.Category) ? "General" : b.Category)</span>
+                  </div>
+
+                  <div>
+                    <h3 class="bo-book-cover-title" title="@b.Title">@b.Title</h3>
+                    <p class="bo-book-cover-author" title="@b.Author">@b.Author</p>
+                  </div>
+                }
+              </div>
+
+              <div class="bo-book-meta">
+                <span class="small text-muted">ID @b.Id</span>
+                <span class="small text-muted">Year @(b.Year?.ToString() ?? "—")</span>
+              </div>
+
+              <div class="bo-book-status-line">
+                @if (string.IsNullOrWhiteSpace(b.PdfPath))
+                {
+                  <span class="badge text-bg-secondary">No PDF</span>
+                }
+                else
+                {
+                  <span class="badge text-bg-success">Uploaded</span>
+                }
+              </div>
+
+              <div class="bo-book-actions">
+                <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Details/@b.Id">Details</a>
+                <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/Edit/@b.Id">Edit</a>
+                <a class="btn btn-sm btn-ghost-light" href="/Admin/Books/UploadPdf/@b.Id">Upload PDF</a>
+                <a class="btn btn-sm btn-outline-danger" href="/Admin/Books/Delete/@b.Id">Delete</a>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
   </div>
 </div>

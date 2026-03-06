@@ -5,13 +5,20 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 
 namespace Biblio.BackOffice.Pages.Admin.Books;
 
 public class ExportPdfModel : PageModel
 {
     private readonly LibraryDbContext _db;
-    public ExportPdfModel(LibraryDbContext db) => _db = db;
+    private readonly IAdminAuditService _audit;
+
+    public ExportPdfModel(LibraryDbContext db, IAdminAuditService audit)
+    {
+        _db = db;
+        _audit = audit;
+    }
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -65,6 +72,11 @@ public class ExportPdfModel : PageModel
                 });
             });
         }).GeneratePdf();
+
+        await _audit.LogAsync(
+            action: "EXPORT_CATALOGUE",
+            entityType: "Book",
+            details: $"Rows={books.Count}");
 
         return File(bytes, "application/pdf", "BiblioFlow-Catalogue.pdf");
     }

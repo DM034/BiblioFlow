@@ -4,14 +4,20 @@ using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Models;
+using Biblio.BackOffice.Services;
 
 namespace Biblio.BackOffice.Pages.Admin.Books;
 
 public class ImportCsvModel : PageModel
 {
     private readonly LibraryDbContext _db;
-    public ImportCsvModel(LibraryDbContext db) => _db = db;
+    private readonly IAdminAuditService _audit;
+
+    public ImportCsvModel(LibraryDbContext db, IAdminAuditService audit)
+    {
+        _db = db;
+        _audit = audit;
+    }
 
     [BindProperty]
     public IFormFile? CsvFile { get; set; }
@@ -76,6 +82,11 @@ public class ImportCsvModel : PageModel
         }
 
         Message = $"Imported: {created}\nSkipped: {skipped}";
+        await _audit.LogAsync(
+            action: "IMPORT_CSV_LEGACY",
+            entityType: "Book",
+            details: $"Created={created}; Skipped={skipped}");
+
         return Page();
     }
 

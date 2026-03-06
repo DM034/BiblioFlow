@@ -1,5 +1,5 @@
 using Biblio.BackOffice.Data;
-using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,13 @@ namespace Biblio.BackOffice.Pages.Admin.Books;
 public class EditModel : PageModel
 {
     private readonly LibraryDbContext _db;
-    public EditModel(LibraryDbContext db) => _db = db;
+    private readonly IAdminAuditService _audit;
+
+    public EditModel(LibraryDbContext db, IAdminAuditService audit)
+    {
+        _db = db;
+        _audit = audit;
+    }
 
     [BindProperty] public Book Book { get; set; } = new();
 
@@ -33,6 +39,13 @@ public class EditModel : PageModel
         b.Summary = Book.Summary;
 
         await _db.SaveChangesAsync();
+
+        await _audit.LogAsync(
+            action: "UPDATE",
+            entityType: "Book",
+            entityId: b.Id.ToString(),
+            details: $"Title={b.Title}; Author={b.Author}");
+
         return Redirect("/Admin/Books");
     }
 }

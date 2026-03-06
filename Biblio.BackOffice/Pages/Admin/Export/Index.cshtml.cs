@@ -1,4 +1,5 @@
 using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,13 @@ namespace Biblio.BackOffice.Pages.Admin.Export;
 public class IndexModel : PageModel
 {
     private readonly LibraryDbContext _db;
-    public IndexModel(LibraryDbContext db) => _db = db;
+    private readonly IAdminAuditService _audit;
+
+    public IndexModel(LibraryDbContext db, IAdminAuditService audit)
+    {
+        _db = db;
+        _audit = audit;
+    }
 
     public void OnGet() { }
 
@@ -68,6 +75,11 @@ public class IndexModel : PageModel
                 });
             });
         }).GeneratePdf();
+
+        await _audit.LogAsync(
+            action: "EXPORT_REPORT",
+            entityType: "Report",
+            details: $"Books={totalBooks}; ActiveLoans={activeLoans}; OverdueLoans={overdueLoans}");
 
         return File(pdf, "application/pdf", "report.pdf");
     }

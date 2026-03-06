@@ -273,4 +273,4 @@
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/Biblio.FrontOffice.pdb
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/Biblio.FrontOffice.genruntimeconfig.cache
 /Users/dm/Documents/GitHub/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/ref/Biblio.FrontOffice.dll
-/Users/dm/Documents/GitHub/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/dq8baaeltz-{0}-3agxl6xytq-3agxl6xytq.gz
+/Users/dm/Documents/GitHub/BiblioFlow/Biblio.FrontOffice/obj/Debug/net10.0/compressed/dq8baaeltz-{0}-mqxgwiylob-mqxgwiylob.gz

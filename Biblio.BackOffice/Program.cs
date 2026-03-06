@@ -1,4 +1,5 @@
 using Biblio.BackOffice.Data;
+using Biblio.BackOffice.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IAdminAuditService, AdminAuditService>();
 builder.Services.AddSession(o =>
 {
     o.Cookie.HttpOnly = true;
