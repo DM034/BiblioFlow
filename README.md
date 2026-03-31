@@ -1,362 +1,263 @@
 # BiblioFlow
-Digital library (MIAGE/MBDS): BackOffice (Razor Pages + EF Core) and FrontOffice (MVC + ADO.NET + REST API) on SQL Server. Borrowing = time-limited online access (no permanent download). Includes pagination, CSV import, PDF export, and indexing.
 
-````md
-# BiblioFlow (FrontOffice + BackOffice) — Full Setup (Windows & Linux)
+Bibliotheque numerique en .NET 10 avec deux applications web:
 
-A .NET solution (FrontOffice MVC + BackOffice Razor Pages) using SQL Server (Docker recommended).
+- BackOffice en Razor Pages + Entity Framework Core
+- FrontOffice en ASP.NET Core MVC + ADO.NET
 
----
+Le projet utilise SQL Server (Docker recommande) et fournit un script local pour demarrer l'ensemble.
 
-## 0) Project Structure
+## Etat exact du depot
 
-- `Biblio.FrontOffice` : FrontOffice (ASP.NET Core MVC) — catalog, search, borrow, read PDF
-- `Biblio.BackOffice`  : BackOffice (Razor Pages) — admin (Books, Licenses, Loans, Import/Export, Upload PDF…)
-- `docker/`            : optional compose / scripts
+Structure actuelle (hors .git, bin, obj et librairies vendor sous wwwroot/lib):
 
----
+```text
+.
+|-- .gitignore
+|-- BiblioFlow.slnx
+|-- README.md
+|-- Biblio.BackOffice
+|   |-- Biblio.BackOffice.csproj
+|   |-- Program.cs
+|   |-- appsettings.json
+|   |-- appsettings.Development.json
+|   |-- appsettings.Local.json
+|   |-- Data
+|   |   |-- Entities.cs
+|   |   `-- LibraryDbContext.cs
+|   |-- Migrations
+|   |   |-- 20251217090125_Init.cs
+|   |   |-- 20251217090125_Init.Designer.cs
+|   |   |-- 20251219074355_MakePdfPathNullable.cs
+|   |   |-- 20251219074355_MakePdfPathNullable.Designer.cs
+|   |   |-- 20251219074837_MakeSummaryPdfPathOptional.cs
+|   |   |-- 20251219074837_MakeSummaryPdfPathOptional.Designer.cs
+|   |   |-- 20260305093806_AddAdminAuditTrailAndImportIndexes.cs
+|   |   |-- 20260305093806_AddAdminAuditTrailAndImportIndexes.Designer.cs
+|   |   `-- LibraryDbContextModelSnapshot.cs
+|   |-- Models
+|   |   |-- Book.cs
+|   |   |-- License.cs
+|   |   `-- Loan.cs
+|   |-- Pages
+|   |   |-- _ViewImports.cshtml
+|   |   |-- _ViewStart.cshtml
+|   |   |-- Login.cshtml
+|   |   |-- Login.cshtml.cs
+|   |   |-- Logout.cshtml
+|   |   |-- Logout.cshtml.cs
+|   |   |-- Admin
+|   |   |   |-- Audit
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   `-- Index.cshtml.cs
+|   |   |   |-- Books
+|   |   |   |   |-- Create.cshtml
+|   |   |   |   |-- Create.cshtml.cs
+|   |   |   |   |-- Delete.cshtml
+|   |   |   |   |-- Delete.cshtml.cs
+|   |   |   |   |-- Details.cshtml
+|   |   |   |   |-- Details.cshtml.cs
+|   |   |   |   |-- Edit.cshtml
+|   |   |   |   |-- Edit.cshtml.cs
+|   |   |   |   |-- ExportPdf.cshtml
+|   |   |   |   |-- ExportPdf.cshtml.cs
+|   |   |   |   |-- ImportCsv.cshtml
+|   |   |   |   |-- ImportCsv.cshtml.cs
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   |-- Index.cshtml.cs
+|   |   |   |   |-- UploadPdf.cshtml
+|   |   |   |   `-- UploadPdf.cshtml.cs
+|   |   |   |-- Dashboard
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   `-- Index.cshtml.cs
+|   |   |   |-- Export
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   `-- Index.cshtml.cs
+|   |   |   |-- Import
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   `-- Index.cshtml.cs
+|   |   |   |-- Licenses
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   `-- Index.cshtml.cs
+|   |   |   `-- Loans
+|   |   |       |-- Index.cshtml
+|   |   |       `-- Index.cshtml.cs
+|   |   `-- Shared
+|   |       |-- _Layout.cshtml
+|   |       |-- _Layout.cshtml.css
+|   |       `-- _ValidationScriptsPartial.cshtml
+|   |-- Properties
+|   |   `-- launchSettings.json
+|   |-- Services
+|   |   `-- AdminAuditService.cs
+|   `-- wwwroot
+|       |-- favicon.ico
+|       |-- css
+|       |   |-- admin.css
+|       |   `-- site.css
+|       `-- js
+|           `-- site.js
+|-- Biblio.FrontOffice
+|   |-- Biblio.FrontOffice.csproj
+|   |-- Program.cs
+|   |-- appsettings.json
+|   |-- appsettings.Development.json
+|   |-- should_fail.pdf
+|   |-- test.pdf
+|   |-- Controllers
+|   |   |-- AccountController.cs
+|   |   |-- BooksController.cs
+|   |   |-- HomeController.cs
+|   |   |-- LoansController.cs
+|   |   `-- Api
+|   |       `-- LoansApiController.cs
+|   |-- Data
+|   |   `-- SqlLibraryRepository.cs
+|   |-- Models
+|   |   `-- ErrorViewModel.cs
+|   |-- Properties
+|   |   `-- launchSettings.json
+|   |-- Views
+|   |   |-- _ViewImports.cshtml
+|   |   |-- _ViewStart.cshtml
+|   |   |-- Account
+|   |   |   `-- Login.cshtml
+|   |   |-- Books
+|   |   |   |-- Details.cshtml
+|   |   |   |-- Index.cshtml
+|   |   |   `-- MyLoans.cshtml
+|   |   |-- Home
+|   |   |   |-- Index.cshtml
+|   |   |   `-- Privacy.cshtml
+|   |   |-- Loans
+|   |   |   `-- Index.cshtml
+|   |   `-- Shared
+|   |       |-- Error.cshtml
+|   |       |-- _Layout.cshtml
+|   |       |-- _Layout.cshtml.css
+|   |       `-- _ValidationScriptsPartial.cshtml
+|   `-- wwwroot
+|       |-- favicon.ico
+|       |-- css
+|       |   |-- front.css
+|       |   `-- site.css
+|       `-- js
+|           `-- site.js
+|-- docker
+|   |-- docker-compose.yml
+|   `-- should_fail.pdf
+`-- scripts
+    `-- dev.sh
+```
 
-## 1) Requirements
+## Stack technique
 
-### Mandatory
-- **.NET SDK** (target framework: `net10.0`)
-  - Check:
-    ```bash
-    dotnet --version
-    ```
-- **SQL Server** (Docker recommended)
-- **Docker** (recommended)
-  - Windows: Docker Desktop
-  - Linux: Docker Engine + Docker Compose plugin
-  - Check:
-    ```bash
-    docker --version
-    docker compose version
-    ```
+- .NET SDK: net10.0
+- Base de donnees: SQL Server 2022
+- BackOffice: ASP.NET Core Razor Pages + EF Core + QuestPDF + CsvHelper
+- FrontOffice: ASP.NET Core MVC + Microsoft.Data.SqlClient (ADO.NET)
 
-### Recommended
-- Git
-- VS Code / Visual Studio
+Packages declares actuellement:
 
----
+- BackOffice
+  - CsvHelper 33.1.0
+  - Microsoft.EntityFrameworkCore.Design 10.0.1
+  - Microsoft.EntityFrameworkCore.SqlServer 10.0.1
+  - Microsoft.EntityFrameworkCore.Tools 10.0.1
+  - Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.0
+  - QuestPDF 2025.12.0
+- FrontOffice
+  - Microsoft.Data.SqlClient 6.1.3
 
-## 2) NuGet Packages (What you typically need)
+## Configuration actuelle
 
-### Data Access / SQL
-- `Microsoft.Data.SqlClient`
-- `Microsoft.EntityFrameworkCore.SqlServer`
-- `Microsoft.EntityFrameworkCore.Design`
-- `Microsoft.EntityFrameworkCore.Tools`
+Connection string par defaut dans les deux applications:
 
-### BackOffice (PDF export, if used)
-- `QuestPDF`
+```text
+Server=127.0.0.1,1433;Database=BiblioDb;User Id=sa;Password=Root12345678;Encrypt=False;TrustServerCertificate=True;
+```
 
-### Optional CLI tools
-- EF CLI:
-  ```bash
-  dotnet tool install -g dotnet-ef
-````
+BackOffice charge aussi appsettings.Local.json (optionnel), qui contient aujourd'hui:
 
-* Razor scaffolding:
+- Admin.Emails: tracemadaprojet@gmail.com, admin@local
 
-  ```bash
-  dotnet tool install -g dotnet-aspnet-codegenerator
-  ```
+Important:
 
-> To list installed packages in a project:
+- La page Login du BackOffice accepte un email non vide et le stocke en session sous admin_email.
+- Le middleware bloque les routes /Admin/* si admin_email est absent.
+
+## Demarrage rapide
+
+Prerequis:
+
+- dotnet
+- docker
+- curl
+- lsof
+
+Commande recommandee (macOS/Linux):
 
 ```bash
-dotnet list package
-```
-
----
-
-## 3) Database (SQL Server) — Docker Setup (Recommended)
-
-### 3.1 Start SQL Server
-
-#### Option A — docker run
-
-```bash
-docker run -d --name sql1biblio \
-  -e "ACCEPT_EULA=Y" \
-  -e "MSSQL_SA_PASSWORD=Root12345678" \
-  -p 1433:1433 \
-  mcr.microsoft.com/mssql/server:2022-latest
-```
-
-Verify container is running:
-
-```bash
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-```
-
-#### Option B — docker compose
-
-If you have a `docker-compose.yml`:
-
-```bash
-docker compose up -d
-```
-
-### 3.2 Test SQL Server connectivity (inside container)
-
-```bash
-docker exec -it sql1biblio /opt/mssql-tools18/bin/sqlcmd \
-  -C -S localhost -U sa -P "Root12345678" \
-  -Q "SELECT @@VERSION;"
-```
-
----
-
-## 4) Connection Strings (FrontOffice + BackOffice)
-
-### 4.1 BackOffice (`Biblio.BackOffice/appsettings.json`)
-
-```json
-{
-  "ConnectionStrings": {
-    "Default": "Server=localhost,1433;Database=BiblioDb;User Id=sa;Password=Root12345678;TrustServerCertificate=True;Encrypt=False"
-  }
-}
-```
-
-### 4.2 FrontOffice (`Biblio.FrontOffice/appsettings.json`)
-
-```json
-{
-  "ConnectionStrings": {
-    "Default": "Server=localhost,1433;Database=BiblioDb;User Id=sa;Password=Root12345678;TrustServerCertificate=True;Encrypt=False"
-  }
-}
-```
-
-Notes:
-
-* If you hit TLS/handshake errors, keep:
-
-  * `Encrypt=False`
-  * `TrustServerCertificate=True`
-* If SQL runs on your host and apps run on the host: `localhost,1433` works (because you exposed `-p 1433:1433`).
-
----
-
-## 5) EF Core Migrations / Create the Database
-
-Run from the project that contains the `DbContext` and migrations (usually BackOffice).
-
-```bash
-cd Biblio.BackOffice
-dotnet restore
-dotnet ef database update
-```
-
----
-
-## 6) Run the Apps
-
-### 6.1 Run BackOffice
-
-```bash
-cd Biblio.BackOffice
-dotnet restore
-dotnet run --urls "http://0.0.0.0:5100"
-```
-
-Useful routes:
-
-* `http://localhost:5100/Login`
-* `http://localhost:5100/Admin/Books`
-* `http://localhost:5100/Admin/Licenses`
-* `http://localhost:5100/Admin/Loans`
-* `http://localhost:5100/Admin/Import`
-* `http://localhost:5100/Admin/Export`
-
-### 6.2 Run FrontOffice
-
-```bash
-cd Biblio.FrontOffice
-dotnet restore
-dotnet run --urls "http://0.0.0.0:5200"
-```
-
-Useful routes:
-
-* `http://localhost:5200/Books`
-* `http://localhost:5200/Account/Login`
-
----
-
-## 7) Seed Test Data (Insert a Book + License)
-
-Example: insert one book and one license, then list latest rows.
-
-```bash
-docker exec -i sql1biblio /opt/mssql-tools18/bin/sqlcmd \
-  -C -S localhost -U sa -P "Root12345678" \
-  -Q "USE BiblioDb;
-INSERT INTO Books(Title, Author, Category, Year, Summary, PdfPath)
-VALUES (N'Livre1', N'Auteur1', N'General', 2025, N'Resume', N'/home/dm/Documents/DOSSIER M2/DM/PDF/02_IDENTITE.pdf');
-DECLARE @id INT = SCOPE_IDENTITY();
-INSERT INTO Licenses(BookId, ConcurrentSeats) VALUES (@id, 1);
-SELECT TOP 5 Id, Title, PdfPath FROM Books ORDER BY Id DESC;"
-```
-
----
-
-## 8) How `PdfPath` Works (Important)
-
-`PdfPath` is a **server-side file path**. When FrontOffice calls `Read`, it typically does:
-
-* `File.Exists(path)`
-* then streams the PDF from disk.
-
-So the PDF file must exist **on the machine where FrontOffice is running**.
-
-### Case A — FrontOffice runs on the host machine (your Linux/Windows)
-
-✅ Store an absolute host path, e.g.
-
-* Linux: `/home/dm/.../file.pdf`
-* Windows: `C:\Users\...\file.pdf`
-
-### Case B — FrontOffice runs in Docker
-
-✅ You must mount a volume and use an in-container path, e.g. `/pdfs/file.pdf`.
-
-### Default PDF storage (portable)
-
-If `Storage:PdfRoot` is not configured (or invalid), BackOffice stores uploaded PDFs in a writable cross-platform default folder:
-
-- Windows: `%LOCALAPPDATA%/BiblioFlow/pdfs`
-- macOS: `~/Library/Application Support/BiblioFlow/pdfs`
-- Linux: `~/.local/share/BiblioFlow/pdfs`
-
-This avoids machine-specific hardcoded paths like `/home/<user>/...`.
-
----
-
-## 9) Clean / Rebuild Commands
-
-### Linux / macOS
-
-```bash
-rm -rf bin obj
-dotnet build
-```
-
-### Windows (PowerShell)
-
-```powershell
-Remove-Item -Recurse -Force .\bin, .\obj
-dotnet build
-```
-
----
-
-## 10) Common Issues
-
-### A) SQL Server not found / connection fails
-
-* SQL container not running:
-
-  ```bash
-  docker ps
-  ```
-* Port not exposed:
-
-  * ensure `-p 1433:1433`
-* Wrong connection string.
-
-### B) Pre-login handshake / TLS reset errors
-
-Use:
-
-* `Encrypt=False;TrustServerCertificate=True`
-
-### C) “The ConnectionString property has not been initialized”
-
-* Ensure `appsettings.json` has:
-
-  * `"ConnectionStrings": { "Default": "..." }`
-* Ensure code uses:
-
-  ```csharp
-  cfg.GetConnectionString("Default")
-  ```
-
----
-
-## 11) BackOffice Login
-
-BackOffice auth is based on your implementation (session like `admin_email`).
-
-* Login route:
-
-  * `/Login`
-* After login, session should contain `admin_email` to unlock admin pages.
-
----
-
-## 12) Quick Start (All-in-one)
-
-```bash
-# 1) Start SQL Server
-docker run -d --name sql1biblio -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Root12345678" -p 1433:1433 mcr.microsoft.com/mssql/server:2022-latest
-
-# 2) Apply migrations (BackOffice)
-cd Biblio.BackOffice
-dotnet restore
-dotnet ef database update
-
-# 3) Run BackOffice
-dotnet run --urls "http://0.0.0.0:5100"
-
-# 4) Run FrontOffice
-cd ../Biblio.FrontOffice
-dotnet restore
-dotnet run --urls "http://0.0.0.0:5200"
-```
-
----
-
-## 13) One-command Dev Script (macOS / Linux)
-
-You can start/stop the full local stack with a single script:
-
-```bash
-cd BiblioFlow
 ./scripts/dev.sh up
 ```
 
-Useful commands:
+Ce que fait le script:
+
+1. Verifie Docker (et tente colima start si Docker n'est pas disponible).
+2. Lance (ou cree) le conteneur SQL Server sql1biblio.
+3. Restore les deux projets.
+4. Applique les migrations EF Core (BackOffice).
+5. Lance BackOffice sur le port 5161.
+6. Lance FrontOffice sur le port 5193.
+
+URLs par defaut avec le script:
+
+- BackOffice: http://localhost:5161/Login
+- FrontOffice: http://localhost:5193/Books
+
+Commandes utiles:
 
 ```bash
-# Show current status (Docker / SQL / apps)
 ./scripts/dev.sh status
-
-# Stop BackOffice + FrontOffice only
-./scripts/dev.sh down
-
-# Stop BackOffice + FrontOffice + SQL container
-./scripts/dev.sh down-all
-
-# Follow app logs
 ./scripts/dev.sh logs
+./scripts/dev.sh down
+./scripts/dev.sh down-all
 ```
 
-Default URLs with this script:
+## Demarrage manuel
 
-- BackOffice: `http://localhost:5161/Login`
-- FrontOffice: `http://localhost:5193/Books`
+1. Lancer SQL Server:
 
-Notes:
-
-- `up` restores NuGet packages, applies EF migrations, and starts both apps.
-- If Docker is not running and `colima` is available, the script starts it automatically.
-
----
-
+```bash
+docker compose -f docker/docker-compose.yml up -d
 ```
-::contentReference[oaicite:0]{index=0}
+
+2. Appliquer les migrations:
+
+```bash
+cd Biblio.BackOffice
+dotnet restore
+dotnet ef database update
 ```
+
+3. Lancer BackOffice:
+
+```bash
+dotnet run --urls "http://localhost:5161"
+```
+
+4. Lancer FrontOffice dans un autre terminal:
+
+```bash
+cd ../Biblio.FrontOffice
+dotnet restore
+dotnet run --urls "http://localhost:5193"
+```
+
+## Notes utiles
+
+- Le projet contient des fichiers PDF de test:
+  - Biblio.FrontOffice/test.pdf
+  - Biblio.FrontOffice/should_fail.pdf
+  - docker/should_fail.pdf
+- Les dossiers generes bin, obj et .run sont ignores par Git (voir .gitignore).
