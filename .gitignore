@@ -1,0 +1,14 @@
+# .NET build artifacts
+**/bin/
+**/obj/
+
+# Local runtime files
+.run/
+
+# IDE / OS
+.vs/
+.vscode/
+.DS_Store
+
+# Logs
+*.log
