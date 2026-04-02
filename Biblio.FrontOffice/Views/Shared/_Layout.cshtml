@@ -35,7 +35,7 @@
 
       @if (isAuth)
       {
-        <a class="btn btn-ghost btn-sm @(isLoans ? "active" : "")" href="/Books/MyLoans">Mes emprunts</a>
+        <a class="btn btn-ghost btn-sm @(isLoans ? "active" : "")" href="/Books/MyLoans">My Loans</a>
         <span class="fo-pill">Logged as: <strong class="fo-email text-truncate">@email</strong></span>
         <form method="post" action="/Account/Logout" class="d-inline">
           <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
